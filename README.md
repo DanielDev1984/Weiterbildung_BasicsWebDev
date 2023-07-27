@@ -1,3 +1,3 @@
-# Implementing a case stuy platform for renting bikes
+# Implementing a case study platform for renting bikes
 
 <img src="Screenshot_CurrentState.PNG">
