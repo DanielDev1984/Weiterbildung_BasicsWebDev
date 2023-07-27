@@ -19,39 +19,102 @@
             color: beige;
             font-weight: bold;
         }
+        input {
+            background-color: darkgray;
+            color: beige;
+            font-weight: bold;
+        }
+        hr {
+            color: darkgray;
+        }
+        
+        div.bikeToChooseEntry {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15px;
+        }
+        div.rowFlowDirection{
+            display: flex;
+            flex-direction: row;
+        }
+        p.stubImage {
+            border:solid thick darkgray;  
+            background: aquamarine; 
+            border-radius: 0.5em; 
+            border-width:2px; 
+            margin:2px; 
+            width:150px; 
+            height:150px;
+            align-self: center;
+        }
+
+        /* helper style for visually identifying ToDos*/
+        .todo {
+            color: red;
+        }
         </style>
     </head>
     <body >
-        <div>
-            <h1>Choose Date and Category</h1>
-            <section>Selected Date: now</section> <!-- todo: use the actually set date here-->
-            <section>Selected Category:</section> <!-- todo: use the actually set category here-->
-                <select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
-                  <option>Road</option>
-                  <option>Touring</option>
-                  <option>MTB</option>
-                </select>
-        </div>
-        <br>
         <img src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
         <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
-        <p>Select Booking Date</p> <!-- todo: add calendar "widget" here -->
-        <p>Select Bike Category</p> <!-- todo: add dropdown for bike categories here-->
+        <div>
+            <h1>Choose Date and Category</h1>
+            <section class="todo">Selected Date: now - then</section> <!-- todo: use the actually set date here-->
+            <section class="todo">Selected Category:</section> <!-- todo: use the actually set category here-->
+            <hr>
+            <h4>Select Bookingdate </h4>
+            <form>
+                <label for="dateFrom">from: 
+                    <input type="datetime-local" id="dateFrom" name="dateFrom"><br>
+                </label>
+                <label for="dateTo">to: 
+                    <input type="datetime-local" id="dateTo" name="dateTo"></label>
+                <br>
+            </form>
+            <h4>Select Bike-Category </h4>
+            <select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+                <option>Road</option>
+                <option>Touring</option>
+                <option>MTB</option>
+            </select>
+        </div>
+        <br>
         <hr></hr>
         <h1>Choose Bikes for rental</h1>
-        <p style="border:solid thick darkgray;  background: aquamarine; border-radius: 0.5em; 
-          border-width:2px; padding-left:9px; padding-top:6px; 
-          padding-bottom:6px; margin:2px; width:150px; height:150px"></p>>
-        <label for="bikeSize">Bikesize: <!-- todo: does the "for"-attribute really work here? -->
-            <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-            </select>
-        </label>
-        <form>
-            <label for="frameSize">Framesize:</label><br>
-            <input type="text" id="frameSize" name="frameSize"><br>
-          </form> 
+        <h4 class="todo">Select Bikes from Category: CATEGORY MISSING </h4>
+        <div class="rowFlowDirection">
+                    <div class="bikeToChooseEntry">
+                        <p class="stubImage">
+                            <img src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                        </p>
+                        <label >Bikesize:
+                        </label>
+                        <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                        </select>
+                        <form>
+                            <label for="numberOfBikes">number of Bikes:</label><br>
+                            <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
+                        </form>
+                    </div>
+                    <div class="bikeToChooseEntry">
+                        <p class="stubImage">
+                            <img src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                        </p>
+                        <label >Bikesize:
+                        </label>
+                        <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                        </select>
+                        <form>
+                            <label for="numberOfBikes">number of Bikes:</label><br>
+                            <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
+                        </form>
+                    </div>
+            </div>
     </body>
 </html>
