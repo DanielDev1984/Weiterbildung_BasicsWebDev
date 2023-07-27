@@ -6,9 +6,52 @@
         <title>BookingPlattformTouristikBike</title>
  <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
-            
+        body {
+            background-color: #E8E9EA;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h1 {
+            color: aquamarine;
+            background-color: darkgrey;
+        }
+        select{
+            background-color: darkgray;
+            color: beige;
+            font-weight: bold;
+        }
         </style>
     </head>
     <body >
+        <div>
+            <h1>Choose Date and Category</h1>
+            <section>Selected Date: now</section> <!-- todo: use the actually set date here-->
+            <section>Selected Category:</section> <!-- todo: use the actually set category here-->
+                <select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+                  <option>Road</option>
+                  <option>Touring</option>
+                  <option>MTB</option>
+                </select>
+        </div>
+        <br>
+        <img src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
+        <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
+        <p>Select Booking Date</p> <!-- todo: add calendar "widget" here -->
+        <p>Select Bike Category</p> <!-- todo: add dropdown for bike categories here-->
+        <hr></hr>
+        <h1>Choose Bikes for rental</h1>
+        <p style="border:solid thick darkgray;  background: aquamarine; border-radius: 0.5em; 
+          border-width:2px; padding-left:9px; padding-top:6px; 
+          padding-bottom:6px; margin:2px; width:150px; height:150px"></p>>
+        <label for="bikeSize">Bikesize: <!-- todo: does the "for"-attribute really work here? -->
+            <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+            </select>
+        </label>
+        <form>
+            <label for="frameSize">Framesize:</label><br>
+            <input type="text" id="frameSize" name="frameSize"><br>
+          </form> 
     </body>
 </html>
