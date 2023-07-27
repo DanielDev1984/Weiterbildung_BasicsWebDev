@@ -49,6 +49,16 @@
             display: flex;
             flex-direction: row;
         }
+        /* todo pass an according parameter, or change the selector class depending on some condition */
+        img.dynamicHueImage0 {
+            filter: hue-rotate(0deg);
+        }
+        img.dynamicHueImage270 {
+            filter: hue-rotate(270deg);
+        }
+        img.dynamicHueImage300 {
+            filter: hue-rotate(300deg);
+        }
 
         /* helper style for visually identifying ToDos*/
         .todo {
@@ -89,7 +99,7 @@
         <div class="flexRow">
                     <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant A
-                            <img src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                            <img class="dynamicHueImage0" src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
@@ -105,7 +115,7 @@
                     </div>
                     <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant B
-                            <img src="./stub_road_category.png"  alt="stub road categoryicon" width="100%" heigt="auto">
+                            <img class="dynamicHueImage270" src="./stub_road_category.png"  alt="stub road categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
@@ -121,7 +131,7 @@
                     </div>
                     <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant C
-                            <img src="./stub_touring_category.png"  alt="stub touring categoryicon" width="100%" heigt="auto">
+                            <img class="dynamicHueImage300" src="./stub_touring_category.png"  alt="stub touring categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
