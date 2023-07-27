@@ -33,11 +33,8 @@
             flex-direction: column;
             margin-left: 15px;
         }
-        div.rowFlowDirection{
-            display: flex;
-            flex-direction: row;
-        }
         p.stubImage {
+            color: red;
             border:solid thick darkgray;  
             background: aquamarine; 
             border-radius: 0.5em; 
@@ -46,6 +43,11 @@
             width:150px; 
             height:150px;
             align-self: center;
+        }
+
+        .flexRow {
+            display: flex;
+            flex-direction: row;
         }
 
         /* helper style for visually identifying ToDos*/
@@ -64,12 +66,14 @@
             <hr>
             <h4>Select Bookingdate </h4>
             <form>
-                <label for="dateFrom">from: 
-                    <input type="datetime-local" id="dateFrom" name="dateFrom"><br>
-                </label>
-                <label for="dateTo">to: 
-                    <input type="datetime-local" id="dateTo" name="dateTo"></label>
-                <br>
+                <div class="flexRow">
+                    <label for="dateFrom">from: 
+                        <input type="datetime-local" id="dateFrom" name="dateFrom">
+                    </label>
+                    <label for="dateTo">to: 
+                        <input type="datetime-local" id="dateTo" name="dateTo">
+                    </label>
+                </div>
             </form>
             <h4>Select Bike-Category </h4>
             <select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
@@ -82,9 +86,9 @@
         <hr></hr>
         <h1>Choose Bikes for rental</h1>
         <h4 class="todo">Select Bikes from Category: CATEGORY MISSING </h4>
-        <div class="rowFlowDirection">
+        <div class="flexRow">
                     <div class="bikeToChooseEntry">
-                        <p class="stubImage">
+                        <p class="stubImage">Variant A
                             <img src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
@@ -100,8 +104,24 @@
                         </form>
                     </div>
                     <div class="bikeToChooseEntry">
-                        <p class="stubImage">
-                            <img src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                        <p class="stubImage">Variant B
+                            <img src="./stub_road_category.png"  alt="stub road categoryicon" width="100%" heigt="auto">
+                        </p>
+                        <label >Bikesize:
+                        </label>
+                        <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                        </select>
+                        <form>
+                            <label for="numberOfBikes">number of Bikes:</label><br>
+                            <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
+                        </form>
+                    </div>
+                    <div class="bikeToChooseEntry">
+                        <p class="stubImage">Variant C
+                            <img src="./stub_touring_category.png"  alt="stub touring categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
