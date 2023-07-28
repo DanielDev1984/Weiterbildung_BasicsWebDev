@@ -35,7 +35,6 @@
             margin-left: 15px;
         }
         p.stubImage {
-            color: red;
             border:solid thick darkgray;  
             background: aquamarine; 
             border-radius: 0.5em; 
@@ -98,9 +97,29 @@
         <h1>Choose Bikes for rental</h1>
         <h4 class="todo">Select Bikes from Category: CATEGORY MISSING </h4>
         <div class="flexRow">
-                    <div class="bikeToChooseEntry">
-                        <p class="stubImage">Variant A
-                            <img class="dynamicHueImage0" src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
+        <?php 
+            $xml=simplexml_load_file("./BikeStock.xml") or die("Error: Cannot create object");
+            foreach($xml as $node)
+            {
+                $category = $node->CATEGORY;
+                $size = $node->SIZE;
+                $inStock = $node->IN_STOCK;
+                echo "$category <br> $size <br> $inStock";
+                $variant = $node->VARIANT;
+                $hue = "dynamicHueImage0";
+                if($variant == "A")
+                {
+                    $hue = "dynamicHueImage270";
+                }
+                elseif($variant == "B")
+                {
+                    $hue = "dynamicHueImage300";
+                }
+                
+                echo <<<OWN
+                        <div class="bikeToChooseEntry">
+                        <p class="stubImage">Variant $variant
+                            <img class=$hue src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
@@ -113,39 +132,10 @@
                             <label for="numberOfBikes">number of Bikes:</label><br>
                             <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
                         </form>
-                    </div>
-                    <div class="bikeToChooseEntry">
-                        <p class="stubImage">Variant B
-                            <img class="dynamicHueImage270" src="./stub_mtb_category.png"  alt="stub road categoryicon" width="100%" heigt="auto">
-                        </p>
-                        <label >Bikesize:
-                        </label>
-                        <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                        </select>
-                        <form>
-                            <label for="numberOfBikes">number of Bikes:</label><br>
-                            <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
-                        </form>
-                    </div>
-                    <div class="bikeToChooseEntry">
-                        <p class="stubImage">Variant C
-                            <img class="dynamicHueImage300" src="./stub_mtb_category.png"  alt="stub touring categoryicon" width="100%" heigt="auto">
-                        </p>
-                        <label >Bikesize:
-                        </label>
-                        <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                        </select>
-                        <form>
-                            <label for="numberOfBikes">number of Bikes:</label><br>
-                            <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
-                        </form>
-                    </div>
-            </div>
+                        </div>
+                        OWN;
+            }
+        ?>
+        </div>
     </body>
 </html>
