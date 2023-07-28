@@ -6,6 +6,7 @@
         <title>BookingPlattformTouristikBike</title>
  <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
+            /*todo: dont redefine the colors, but instead use variables /styles in the like of"mainColor" ...*/
         body {
             background-color: #E8E9EA;
             font-family: Arial, Helvetica, sans-serif;
@@ -49,7 +50,7 @@
             display: flex;
             flex-direction: row;
         }
-        /* todo pass an according parameter, or change the selector class depending on some condition */
+        /* todo pass an according parameter (reflecting the variant color from the xml?)), or change the selector class depending on some condition */
         img.dynamicHueImage0 {
             filter: hue-rotate(0deg);
         }
@@ -115,7 +116,7 @@
                     </div>
                     <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant B
-                            <img class="dynamicHueImage270" src="./stub_road_category.png"  alt="stub road categoryicon" width="100%" heigt="auto">
+                            <img class="dynamicHueImage270" src="./stub_mtb_category.png"  alt="stub road categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
@@ -131,7 +132,7 @@
                     </div>
                     <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant C
-                            <img class="dynamicHueImage300" src="./stub_touring_category.png"  alt="stub touring categoryicon" width="100%" heigt="auto">
+                            <img class="dynamicHueImage300" src="./stub_mtb_category.png"  alt="stub touring categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
