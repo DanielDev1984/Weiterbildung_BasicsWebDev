@@ -86,16 +86,33 @@
                 </div>
             </form>
             <h4>Select Bike-Category </h4>
-            <select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
+            
+            
+
+<form method="post" action="" name="form">  
+<select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
                 <option>Road</option>
                 <option>Touring</option>
                 <option>MTB</option>
             </select>
+ <input name="submit" type="submit">
+</form>
+<?php
+
+if (isset($_POST['bikeCategories']))
+{
+    $tmp_result = $_POST['bikeCategories'];
+    $selectedCategory = strtoupper($tmp_result);
+    echo "<br> selected category: $tmp_result";
+}
+?>
+
         </div>
         <br>
         <hr></hr>
         <h1>Choose Bikes for rental</h1>
-        <h4 class="todo">Select Bikes from Category: CATEGORY MISSING </h4>
+        
+        <h4>Select Bikes from Category: <?php echo $selectedCategory; ?> </h4>
         <div class="flexRow">
         <?php 
             $xml=simplexml_load_file("./BikeStock.xml") or die("Error: Cannot create object");
@@ -105,6 +122,10 @@
                 //todo: ensure that only the allowed categories are taken into account (and dont default to roadbike-icon when category is not supported)
                 $imgSrc = "./stub_road_category.png";
                 $category = $node->CATEGORY;
+                if($selectedCategory == $category)
+                {
+
+                
                 if($category == "MTB")
                 {
                     $imgSrc = "./stub_mtb_category.png";
@@ -147,6 +168,7 @@
                         </form>
                         </div>
                         OWN;
+            }
             }
         ?>
         </div>
