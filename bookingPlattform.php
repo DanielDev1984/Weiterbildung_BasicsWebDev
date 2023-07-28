@@ -101,10 +101,23 @@
             $xml=simplexml_load_file("./BikeStock.xml") or die("Error: Cannot create object");
             foreach($xml as $node)
             {
+                // default to roadbike-icon
+                //todo: ensure that only the allowed categories are taken into account (and dont default to roadbike-icon when category is not supported)
+                $imgSrc = "./stub_road_category.png";
                 $category = $node->CATEGORY;
+                if($category == "MTB")
+                {
+                    $imgSrc = "./stub_mtb_category.png";
+                }
+                elseif($variant == "TOURING")
+                {
+                    $imgSrc = "./stub_touring_category.png";
+                }
                 $size = $node->SIZE;
                 $inStock = $node->IN_STOCK;
-                echo "$category <br> $size <br> $inStock";
+                echo "cat: $category <br> size: $size <br> in stock: $inStock";
+                // default to red / 0° (hsv-model)
+                //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
                 $variant = $node->VARIANT;
                 $hue = "dynamicHueImage0";
                 if($variant == "A")
@@ -119,7 +132,7 @@
                 echo <<<OWN
                         <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant $variant
-                            <img class=$hue src="./stub_mtb_category.png"  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                            <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                         </p>
                         <label >Bikesize:
                         </label>
