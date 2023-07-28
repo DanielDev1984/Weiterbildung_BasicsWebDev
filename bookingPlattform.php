@@ -109,7 +109,7 @@
                 {
                     $imgSrc = "./stub_mtb_category.png";
                 }
-                elseif($variant == "TOURING")
+                elseif($category == "TOURING")
                 {
                     $imgSrc = "./stub_touring_category.png";
                 }
