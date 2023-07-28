@@ -200,38 +200,60 @@ if (isset($_POST['bikeCategories']))
                 $sizeSDisabled = "disabled";
                 $sizeMDisabled = "disabled";
                 $sizeLDisabled = "disabled";
+                $sizeSHidden = "hidden";
+                $sizeMHidden = "hidden";
+                $sizeLHidden = "hidden";
+                $availableBikesS = 0;
+                $availableBikesM = 0;
+                $availableBikesL = 0;
                 foreach($bikeVar as $bike)
                 {
                     if($bike->SIZE == "S")
                     {
+                        $availableBikesS = $bike->IN_STOCK;
                         $sizeSDisabled = "";
+                        $sizeSHidden ="";
                     }
                     if($bike->SIZE == "M")
                     {
+                        $availableBikesM = $bike->IN_STOCK;
                         $sizeMDisabled = "";
+                        $sizeMHidden ="";
                     }
                     if($bike->SIZE == "L")
                     {
+                        $availableBikesL = $bike->IN_STOCK;
                         $sizeLDisabled = "";                     
+                        $sizeLHidden ="";
                     }
                 }
-                
+                /* todo: dont use select-tag for bike sizes... atm they only hold one option */
                 echo <<<OWN
                         <div class="bikeToChooseEntry">
                         <p class="stubImage">Variant $variant
                             <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                         </p>
-                        <label >Bikesize:
-                        </label>
-                        <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
-                            <option $sizeSDisabled>S</option>
-                            <option $sizeMDisabled>M</option>
-                            <option $sizeLDisabled>L</option>
-                        </select>
+                        <div $sizeSHidden>
+                        <label>Bikesize: S</label>
                         <form>
-                            <label for="numberOfBikes">number of Bikes:</label><br>
-                            <input type="number" id="numberOfBikes" name="numberOfBikes"><br>
+                            <label for="numberOfBikesSizeS">number of Bikes:</label><br>
+                            <input type="number" id="numberOfBikesSizeS" name="numberOfBikesSizeS" min="0" max=$availableBikesS><br>
                         </form>
+                        </div>
+                        <div $sizeMHidden>
+                        <label>Bikesize: M</label>
+                        <form>
+                            <label for="numberOfBikesSizeM">number of Bikes:</label><br>
+                            <input type="number" id="numberOfBikesSizeM" name="numberOfBikesSizeM" min="0" max=$availableBikesM><br>
+                        </form>
+                        </div>
+                        <div $sizeLHidden>
+                        <label>Bikesize: L</label>
+                        <form>
+                            <label for="numberOfBikesSizeL">number of Bikes:</label><br>
+                            <input type="number" id="numberOfBikesSizeL" name="numberOfBikesSizeL" min="0" max=$availableBikesL><br>
+                        </form>
+                        </div>
                         </div>
                         OWN;
                 }
