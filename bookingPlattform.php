@@ -12,8 +12,8 @@
             font-family: Arial, Helvetica, sans-serif;
         }
         h1 {
-            color: aquamarine;
-            background-color: darkgrey;
+            color: cadetblue;
+            background-color: #c3c4c3;
         }
         select{
             background-color: darkgray;
@@ -35,10 +35,10 @@
             margin-left: 15px;
         }
         p.stubImage {
-            border:solid thick darkgray;  
-            background: aquamarine; 
-            border-radius: 0.5em; 
-            border-width:2px; 
+            border:solid thick aquamarine;  
+            background: #a7dae0; 
+            border-radius: 0.75em; 
+            border-width:5px; 
             margin:2px; 
             width:150px; 
             height:150px;
@@ -71,6 +71,51 @@
     <body >
         <img src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
         <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
+        <h1>Already rented bikes</h1>
+        <div class="flexRow">
+        <?php 
+            $xml=simplexml_load_file("./User1.xml") or die("Error: Cannot create object");
+            foreach($xml as $node)
+            {
+                $imgSrc = "./stub_road_category.png";
+                $category = $node->CATEGORY;
+
+                
+                if($category == "MTB")
+                {
+                    $imgSrc = "./stub_mtb_category.png";
+                }
+                elseif($category == "TOURING")
+                {
+                    $imgSrc = "./stub_touring_category.png";
+                }
+                $size = $node->SIZE;
+                $inStock = $node->IN_STOCK;
+                //echo "cat: $category <br> size: $size <br> in stock: $inStock";
+                // default to red / 0° (hsv-model)
+                //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
+                $variant = $node->VARIANT;
+                $hue = "dynamicHueImage0";
+                if($variant == "A")
+                {
+                    $hue = "dynamicHueImage270";
+                }
+                elseif($variant == "B")
+                {
+                    $hue = "dynamicHueImage300";
+                }
+                $numberRentedBikes = $node->RENTED;
+            echo <<<OWN
+                        <div class="bikeToChooseEntry">
+                        <p class="stubImage">Variant $variant Size $size
+                            <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                        </p>
+                        <label>already rented: $numberRentedBikes</label>
+                        </div>
+                    OWN;
+            }
+        ?>
+        </div>
         <div>
             <h1>Choose Date and Category</h1>
             <section class="todo">Selected Date: now - then</section> <!-- todo: use the actually set date here-->
@@ -262,5 +307,6 @@ if (isset($_POST['bikeCategories']))
                 
         ?>
         </div>
+        <h1 class="todo"> Submit button missing <h1>
     </body>
 </html>
