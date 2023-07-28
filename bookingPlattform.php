@@ -51,14 +51,16 @@
         }
         /* todo pass an according parameter (reflecting the variant color from the xml?)), or change the selector class depending on some condition */
         img.dynamicHueImage0 {
-            filter: hue-rotate(0deg);
+            filter: saturate(80%) hue-rotate(0deg);
         }
         img.dynamicHueImage270 {
-            filter: hue-rotate(270deg);
+            filter: saturate(80%) hue-rotate(270deg);
         }
         img.dynamicHueImage300 {
-            filter: hue-rotate(300deg);
+            filter: saturate(80%) hue-rotate(300deg);
         }
+        select option[disabled] { color: lightgrey; font-weight: normal; }
+        
 
         /* helper style for visually identifying ToDos*/
         .todo {
@@ -72,7 +74,6 @@
         <div>
             <h1>Choose Date and Category</h1>
             <section class="todo">Selected Date: now - then</section> <!-- todo: use the actually set date here-->
-            <section class="todo">Selected Category:</section> <!-- todo: use the actually set category here-->
             <hr>
             <h4>Select Bookingdate </h4>
             <form>
@@ -90,6 +91,7 @@
             
 
 <form method="post" action="" name="form">  
+    <!-- todo: visually highlight the selected entry in the list! -->
 <select name="bikeCategories" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
                 <option>Road</option>
                 <option>Touring</option>
@@ -113,12 +115,57 @@ if (isset($_POST['bikeCategories']))
         <h1>Choose Bikes for rental</h1>
         
         <h4>Select Bikes from Category: <?php echo $selectedCategory; ?> </h4>
-        <div class="flexRow">
+        <!-- todo: outsource this to extra function -->
         <?php 
             $xml=simplexml_load_file("./BikeStock.xml") or die("Error: Cannot create object");
+            
+
+            $variantA_Bikes = array();
+            $variantB_Bikes = array();
+            $variantC_Bikes = array();
             foreach($xml as $node)
             {
-                // default to roadbike-icon
+                if($node->VARIANT == "A" && ($node->CATEGORY == $selectedCategory))
+                {
+                    $variantA_Bikes[]= $node;
+                }
+                if($node->VARIANT == "B" && ($node->CATEGORY == $selectedCategory))
+                {
+                    $variantB_Bikes[]= $node;
+                }
+                if($node->VARIANT == "C" && ($node->CATEGORY == $selectedCategory))
+                {
+                    $variantC_Bikes[]= $node;
+                }
+            }
+
+            $sizesVarA = array();
+            foreach($variantA_Bikes as $bikeA)
+            {
+                $sizesVarA[] = $bikeA->SIZE;
+            }
+            $sizesVarB = array();
+            foreach($variantB_Bikes as $bikeB)
+            {
+                $sizesVarB[] = $bikeB->SIZE;
+            }
+            $sizesVarC = array();
+            foreach($variantC_Bikes as $bikeC)
+            {
+                $sizesVarC[] = $bikeC->SIZE;
+            }
+            $bikeVariants = [$variantA_Bikes, $variantB_Bikes, $variantC_Bikes];
+            
+        ?>
+        <div class="flexRow">
+        <?php 
+            //$xml=simplexml_load_file("./BikeStock.xml") or die("Error: Cannot create object");
+            //foreach($xml as $node)
+            foreach($bikeVariants as $bikeVar)
+            {
+                if($bikeVar) {
+                    $node = $bikeVar[0][0];
+                    // default to roadbike-icon
                 //todo: ensure that only the allowed categories are taken into account (and dont default to roadbike-icon when category is not supported)
                 $imgSrc = "./stub_road_category.png";
                 $category = $node->CATEGORY;
@@ -136,7 +183,7 @@ if (isset($_POST['bikeCategories']))
                 }
                 $size = $node->SIZE;
                 $inStock = $node->IN_STOCK;
-                echo "cat: $category <br> size: $size <br> in stock: $inStock";
+                //echo "cat: $category <br> size: $size <br> in stock: $inStock";
                 // default to red / 0° (hsv-model)
                 //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
                 $variant = $node->VARIANT;
@@ -149,6 +196,25 @@ if (isset($_POST['bikeCategories']))
                 {
                     $hue = "dynamicHueImage300";
                 }
+                /* todo: think of a smarter way to achieve conditional disabling of size-option*/
+                $sizeSDisabled = "disabled";
+                $sizeMDisabled = "disabled";
+                $sizeLDisabled = "disabled";
+                foreach($bikeVar as $bike)
+                {
+                    if($bike->SIZE == "S")
+                    {
+                        $sizeSDisabled = "";
+                    }
+                    if($bike->SIZE == "M")
+                    {
+                        $sizeMDisabled = "";
+                    }
+                    if($bike->SIZE == "L")
+                    {
+                        $sizeLDisabled = "";                     
+                    }
+                }
                 
                 echo <<<OWN
                         <div class="bikeToChooseEntry">
@@ -158,9 +224,9 @@ if (isset($_POST['bikeCategories']))
                         <label >Bikesize:
                         </label>
                         <select name="bikeSize" size="3"> <!-- todo: make sure no additional values can be added / submitted lateron via HTML-->
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
+                            <option $sizeSDisabled>S</option>
+                            <option $sizeMDisabled>M</option>
+                            <option $sizeLDisabled>L</option>
                         </select>
                         <form>
                             <label for="numberOfBikes">number of Bikes:</label><br>
@@ -168,8 +234,10 @@ if (isset($_POST['bikeCategories']))
                         </form>
                         </div>
                         OWN;
+                }
+                }
             }
-            }
+                
         ?>
         </div>
     </body>
