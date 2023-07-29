@@ -8,12 +8,14 @@
         <style>
             /*todo: dont redefine the colors, but instead use variables /styles in the like of"mainColor" ...*/
         body {
-            background-color: #9dd5eb;
+            /*background-color: #9dd5eb;*/
+            background-image: linear-gradient(to right, #9dd5eb, rgba(171,214,221,0.8),  rgba(127,255,212,0.8));
             font-family: Arial, Helvetica, sans-serif;
         }
         h1 {
             color: cadetblue;
-            background-color: #abd6dd;
+            background-image: linear-gradient(to right, rgba(171,214,221,0.8),  rgba(127,255,212,0.5));
+            /*background-color: #abd6dd;*/
         }
         select{
             background-color: #63bcdf;
@@ -36,7 +38,8 @@
         }
         p.stubImage {
             border:solid thick aquamarine;  
-            background: #a7dae0; 
+            /*background: #a7dae0; */
+            background-image: linear-gradient(to right, rgba(171,214,221,0.9), rgba(127,255,212,0.5));
             border-radius: 0.75em; 
             border-width:5px; 
             margin:2px; 
@@ -48,6 +51,9 @@
         .flexRow {
             display: flex;
             flex-direction: row;
+        }
+        img.usericon {
+            
         }
         /* todo pass an according parameter (reflecting the variant color from the xml?)), or change the selector class depending on some condition */
         img.dynamicHueImage0 {
@@ -68,15 +74,19 @@
         }
         </style>
     </head>
-    <body >
-        <img src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
+    <body>
+        <!-- todo: where to reference the used font? -->
+        <!-- font from here: https://www.fontspace.com/new/fonts - "Unbound Gamer" by Iconian Fonts -->
+        <img src="./Logo.png" alt="User icon" width="auto" height="auto">
+        <br>
+        <img class="usericon" src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
         <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
         <h1>Already rented bikes</h1>
         <!-- <div class="flexRow"> -->
         <?php 
             $xml=simplexml_load_file("./User1.xml") or die("Error: Cannot create object");
             /* todo: remove duplicates */
-            echo "<section>Road</section>";
+            echo "<h4>Road</h4>";
             echo '<div class="flexRow">';
             foreach($xml as $node)
             {
@@ -116,7 +126,7 @@
             }
             echo "</div>";
             echo "<br>";
-            echo "<section>Touring</section>";
+            echo "<h4>Touring</h4>";
             echo '<div class="flexRow">';
             foreach($xml as $node)
             {
@@ -157,7 +167,7 @@
             }
             echo "</div>";
             echo "<br>";
-            echo "<section>MTB</section>";
+            echo "<h4>MTB</h4>";
             echo '<div class="flexRow">';
             foreach($xml as $node)
             {
@@ -201,7 +211,6 @@
         </div>
         <div>
             <h1>Choose Date and Category</h1>
-            <hr>
             <h4>Select Bookingdate </h4>
             <form>
                 <div class="flexRow">
@@ -239,7 +248,6 @@ if (isset($_POST['bikeCategories']))
 
         </div>
         <br>
-        <hr></hr>
         <h1>Choose Bikes for rental</h1>
         
         <h4>Select Bikes from Category: <?php echo $selectedCategory; ?> </h4>
