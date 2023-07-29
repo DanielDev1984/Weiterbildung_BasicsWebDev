@@ -8,21 +8,21 @@
         <style>
             /*todo: dont redefine the colors, but instead use variables /styles in the like of"mainColor" ...*/
         body {
-            background-color: #E8E9EA;
+            background-color: #9dd5eb;
             font-family: Arial, Helvetica, sans-serif;
         }
         h1 {
             color: cadetblue;
-            background-color: #c3c4c3;
+            background-color: #abd6dd;
         }
         select{
-            background-color: darkgray;
-            color: beige;
+            background-color: #63bcdf;
+            color: #d2ecf6;
             font-weight: bold;
         }
         input {
-            background-color: darkgray;
-            color: beige;
+            background-color: #63bcdf;
+            color: #d2ecf6;
             font-weight: bold;
         }
         hr {
@@ -53,8 +53,8 @@
         img.dynamicHueImage0 {
             filter: saturate(80%) hue-rotate(0deg);
         }
-        img.dynamicHueImage270 {
-            filter: saturate(80%) hue-rotate(270deg);
+        img.dynamicHueImage120 {
+            filter: saturate(80%) hue-rotate(120deg);
         }
         img.dynamicHueImage300 {
             filter: saturate(80%) hue-rotate(300deg);
@@ -98,7 +98,7 @@
                 $hue = "dynamicHueImage0";
                 if($variant == "A")
                 {
-                    $hue = "dynamicHueImage270";
+                    $hue = "dynamicHueImage120";
                 }
                 elseif($variant == "B")
                 {
@@ -110,7 +110,11 @@
                         <p class="stubImage">Variant $variant Size $size
                             <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                         </p>
-                        <label>already rented: $numberRentedBikes</label>
+                        <label>currently rented ($size): $numberRentedBikes</label>
+                        <form>
+                            <label for="returnBikes">number of Bikes to return:</label><br>
+                            <input type="number" id="returnBikes" name="returnBikes" min="0" max=$numberRentedBikes><br>
+                        </form>
                         </div>
                     OWN;
             }
@@ -118,7 +122,6 @@
         </div>
         <div>
             <h1>Choose Date and Category</h1>
-            <section class="todo">Selected Date: now - then</section> <!-- todo: use the actually set date here-->
             <hr>
             <h4>Select Bookingdate </h4>
             <form>
@@ -131,6 +134,7 @@
                     </label>
                 </div>
             </form>
+            <section class="todo">Selected Date: now - then</section> <!-- todo: use the actually set date here-->
             <h4>Select Bike-Category </h4>
             
             
@@ -235,7 +239,7 @@ if (isset($_POST['bikeCategories']))
                 $hue = "dynamicHueImage0";
                 if($variant == "A")
                 {
-                    $hue = "dynamicHueImage270";
+                    $hue = "dynamicHueImage120";
                 }
                 elseif($variant == "B")
                 {
