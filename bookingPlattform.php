@@ -72,23 +72,18 @@
         <img src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
         <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
         <h1>Already rented bikes</h1>
-        <div class="flexRow">
+        <!-- <div class="flexRow"> -->
         <?php 
             $xml=simplexml_load_file("./User1.xml") or die("Error: Cannot create object");
+            /* todo: remove duplicates */
+            echo "<section>Road</section>";
+            echo '<div class="flexRow">';
             foreach($xml as $node)
             {
                 $imgSrc = "./stub_road_category.png";
                 $category = $node->CATEGORY;
-
-                
-                if($category == "MTB")
+                if($category == "ROAD")
                 {
-                    $imgSrc = "./stub_mtb_category.png";
-                }
-                elseif($category == "TOURING")
-                {
-                    $imgSrc = "./stub_touring_category.png";
-                }
                 $size = $node->SIZE;
                 $inStock = $node->IN_STOCK;
                 //echo "cat: $category <br> size: $size <br> in stock: $inStock";
@@ -117,7 +112,91 @@
                         </form>
                         </div>
                     OWN;
+                }
             }
+            echo "</div>";
+            echo "<br>";
+            echo "<section>Touring</section>";
+            echo '<div class="flexRow">';
+            foreach($xml as $node)
+            {
+                $imgSrc = "./stub_touring_category.png";
+                $category = $node->CATEGORY;
+                if($category == "TOURING")
+                {
+                    
+                $size = $node->SIZE;
+                $inStock = $node->IN_STOCK;
+                //echo "cat: $category <br> size: $size <br> in stock: $inStock";
+                // default to red / 0° (hsv-model)
+                //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
+                $variant = $node->VARIANT;
+                $hue = "dynamicHueImage0";
+                if($variant == "A")
+                {
+                    $hue = "dynamicHueImage120";
+                }
+                elseif($variant == "B")
+                {
+                    $hue = "dynamicHueImage300";
+                }
+                $numberRentedBikes = $node->RENTED;
+            echo <<<OWN
+                        <div class="bikeToChooseEntry">
+                        <p class="stubImage">Variant $variant Size $size
+                            <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                        </p>
+                        <label>currently rented ($size): $numberRentedBikes</label>
+                        <form>
+                            <label for="returnBikes">number of Bikes to return:</label><br>
+                            <input type="number" id="returnBikes" name="returnBikes" min="0" max=$numberRentedBikes><br>
+                        </form>
+                        </div>
+                    OWN;
+                }
+            }
+            echo "</div>";
+            echo "<br>";
+            echo "<section>MTB</section>";
+            echo '<div class="flexRow">';
+            foreach($xml as $node)
+            {
+                $imgSrc = "./stub_mtb_category.png";
+                $category = $node->CATEGORY;
+
+                if($category == "MTB")
+                {
+                $size = $node->SIZE;
+                $inStock = $node->IN_STOCK;
+                //echo "cat: $category <br> size: $size <br> in stock: $inStock";
+                // default to red / 0° (hsv-model)
+                //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
+                $variant = $node->VARIANT;
+                $hue = "dynamicHueImage0";
+                if($variant == "A")
+                {
+                    $hue = "dynamicHueImage120";
+                }
+                elseif($variant == "B")
+                {
+                    $hue = "dynamicHueImage300";
+                }
+                $numberRentedBikes = $node->RENTED;
+            echo <<<OWN
+                        <div class="bikeToChooseEntry">
+                        <p class="stubImage">Variant $variant Size $size
+                            <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                        </p>
+                        <label>currently rented ($size): $numberRentedBikes</label>
+                        <form>
+                            <label for="returnBikes">number of Bikes to return:</label><br>
+                            <input type="number" id="returnBikes" name="returnBikes" min="0" max=$numberRentedBikes><br>
+                        </form>
+                        </div>
+                    OWN;
+                }
+            }
+            echo "</div>";
         ?>
         </div>
         <div>
