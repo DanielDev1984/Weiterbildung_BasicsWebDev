@@ -86,7 +86,7 @@
         <?php 
             include "outsourcedFunction.php";
             $bikeTypes = ["ROAD","MTB", "TOURING"];
-            createRentedBikesOverview("./User1.xml", $bikeTypes);
+            createBikesOverview("Rented","./User1.xml", $bikeTypes);
         ?>
         <div>
             <h1>Choose Date and Category</h1>
@@ -128,13 +128,10 @@ if (isset($_POST['bikeCategories']))
         </div>
         <br>
         <h1>Choose Bikes for rental</h1>
-        
-        <h4>Select Bikes from Category: <?php echo $selectedCategory; ?> </h4>
-        <div class="flexRow">
         <?php 
-            createBikesForRentalOverview($selectedCategory);
+            $category = [strtoupper($selectedCategory)];
+            createBikesOverview("Rental", "./BikeStock.xml", $category);
         ?>
-        </div>
         <h1 class="todo"> Submit button missing <h1>
     </body>
 </html>
