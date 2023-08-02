@@ -75,6 +75,7 @@
         </style>
     </head>
     <body>
+
         <!-- todo: where to reference the used font? -->
         <!-- font from here: https://www.fontspace.com/new/fonts - "Unbound Gamer" by Iconian Fonts -->
         <img src="./Logo.png" alt="User icon" width="auto" height="auto">
@@ -86,8 +87,12 @@
         <?php 
             include "outsourcedFunction.php";
             $bikeTypes = ["ROAD","MTB", "TOURING"];
+            //echo '<form method="post" action="" name="testForm">';
             createBikesOverview("Rented","./User1.xml", $bikeTypes);
+            //echo '<input name="testForm" type="submit">';
+            //echo "</form>";
         ?>
+        <section class="todo">Submitbutton missing</section> 
         <div>
             <h1>Choose Date and Category</h1>
             <h4>Select Bookingdate </h4>
@@ -123,6 +128,12 @@ if (isset($_POST['bikeCategories']))
     $selectedCategory = strtoupper($tmp_result);
     echo "<br> selected category: $tmp_result";
 }
+if (isset($_POST['numberOfBikesSizeS']))
+{
+    $tmp_result = $_POST['numberOfBikesSizeS'];
+    
+    echo "<br> : $tmp_result";
+}
 ?>
 
         </div>
@@ -132,6 +143,6 @@ if (isset($_POST['bikeCategories']))
             $category = [strtoupper($selectedCategory)];
             createBikesOverview("Rental", "./BikeStock.xml", $category);
         ?>
-        <h1 class="todo"> Submit button missing <h1>
+        <section class="todo">Submitbutton missing</section> 
     </body>
-</html>
+</html> 

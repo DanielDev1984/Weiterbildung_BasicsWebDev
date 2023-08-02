@@ -53,15 +53,19 @@ function getHueForVariant($variant)
 <?php
 function createBikesOverview($config, $user, $bikeTypes) {
 			$xml = loadXml($user);
+			$buttonText= "noConfig";
             /* todo this should be outsourced to a dedicated function than it could easily be used in the lateron used "Choose Bikes for rental" UI */
+            echo '<form method="post" action="BookingOverview.php" name="testForm">';
             foreach($bikeTypes as $bikeType)
             {
                 if($config=="Rental")
 			{
+				$buttonText = "Rent bikes";
 				echo "<h4>Select Bikes from Category: $bikeType;</h4>";
 			}
 			elseif($config=="Rented")
 			{
+				$buttonText = "Return bikes";
 				echo "<h4>Rented bikes $bikeType</h4>";
 			}
                 echo '<div class="flexRow">';
@@ -108,6 +112,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
                             $rentedBikesS = 0;
                             $rentedBikesM = 0;
                             $rentedBikesL = 0;
+							$totalNumberOfBikesForVariant = 0;
                             foreach($bikeVar as $bike)
                             {
                                 if($bike->SIZE == "S")
@@ -147,36 +152,35 @@ function createBikesOverview($config, $user, $bikeTypes) {
 									}
 								}
                             }
+							$totalNumberOfBikesForVariant = $numberBikesS + $numberBikesM + $numberBikesL;
 							$description = "to return";
 							if($config == "Rental")
 							{
 								$description = "to rent";
 							}
+							$tmpName = $config . "_" . $bikeType . "_" . $variant;
                             echo <<<OWN
                                     <div class="bikeToChooseEntry">
-                                    <p class="stubImage">Variant $variant
+                                    <p class="stubImage">Variant $variant ($totalNumberOfBikesForVariant x)
                                         <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
-                                    <form>
-                                        <label for="numberOfBikesSizeS_toReturn">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeS_toReturn" name="numberOfBikesSizeS_toReturn" min="0" max=$numberBikesS><br>
-                                    </form>
+                                        <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
+                                        <input type="number" id="numberOfBikesSizeS_$tmpName" name="numberOfBikesSizeS_$tmpName" value="0" min="0" max=$numberBikesS><br>
+                                        <input type="text" id="VariantSizeS_$tmpName" name="currentVariant_S_$tmpName" value=$variant></input><br>
                                     </div>
                                     <div $sizeMHidden>
                                     <label>Bikesize: M</label>
-                                    <form>
-                                        <label for="numberOfBikesSizeM_toReturn">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeM_toReturn" name="numberOfBikesSizeM_toReturn" min="0" max=$numberBikesM><br>
-                                    </form>
+                                        <label for="numberOfBikesSizeM_$tmpName">number of Bikes $description:</label><br>
+                                        <input type="number" id="numberOfBikesSizeM_$tmpName" name="numberOfBikesSizeM_$tmpName" value="0" min="0" max=$numberBikesM><br>
+                                        <input type="text" id="VariantSizeM_$tmpName" name="currentVariant_M_$tmpName" value=$variant></input><br>
                                     </div>
                                     <div $sizeLHidden>
                                     <label>Bikesize: L</label>
-                                    <form>
-                                        <label for="numberOfBikesSizeL_toReturn">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeL_toReturn" name="numberOfBikesSizeL_toReturn" min="0" max=$numberBikesL><br>
-                                    </form>
+                                        <label for="numberOfBikesSizeL_$tmpName">number of Bikes $description:</label><br>
+                                        <input type="number" id="numberOfBikesSizeL_$tmpName" name="numberOfBikesSizeL_$tmpName"value="0"  min="0" max=$numberBikesL><br>
+                                        <input type="text" id="VariantSizeL_$tmpName" name="currentVariant_L_$tmpName" value=$variant></input><br>
                                     </div>
                                     </div>
                                     OWN;
@@ -185,5 +189,9 @@ function createBikesOverview($config, $user, $bikeTypes) {
             }
             echo "</div>";
             }
-}	
+			echo '<section class="todo">make button text dynamic</section>';
+			echo '<input name="placeOrder" type="submit">';
+			
+            echo "</form>";
+}
 ?>
