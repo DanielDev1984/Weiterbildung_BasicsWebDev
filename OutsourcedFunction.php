@@ -158,7 +158,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
 							{
 								$description = "to rent";
 							}
-							$tmpName = $config . "_" . $bikeType . "_" . $variant;
+							$tmpName = "config=" . $config . "&" . "bikeType=". $bikeType . "&" . "variant=" . $variant;
                             echo <<<OWN
                                     <div class="bikeToChooseEntry">
                                     <p class="stubImage">Variant $variant ($totalNumberOfBikesForVariant x)
@@ -167,20 +167,20 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
                                         <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeS_$tmpName" name="numberOfBikesSizeS_$tmpName" value="0" min="0" max=$numberBikesS><br>
-                                        <input type="text" id="VariantSizeS_$tmpName" name="currentVariant_S_$tmpName" value=$variant></input><br>
+                                        <input type="number" id="numberOfBikesSizeS_$tmpName" name="size=S&$tmpName" value="0" min="0" max=$numberBikesS><br>
+                                        <!-- <input type="text" id="VariantSizeS_$tmpName" name="currentVariant_S_$tmpName" value=$variant></input><br> -->
                                     </div>
                                     <div $sizeMHidden>
                                     <label>Bikesize: M</label>
                                         <label for="numberOfBikesSizeM_$tmpName">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeM_$tmpName" name="numberOfBikesSizeM_$tmpName" value="0" min="0" max=$numberBikesM><br>
-                                        <input type="text" id="VariantSizeM_$tmpName" name="currentVariant_M_$tmpName" value=$variant></input><br>
+                                        <input type="number" id="numberOfBikesSizeM_$tmpName" name="size=M&$tmpName" value="0" min="0" max=$numberBikesM><br>
+                                        <!-- <input type="text" id="VariantSizeM_$tmpName" name="currentVariant_M_$tmpName" value=$variant></input><br> -->
                                     </div>
                                     <div $sizeLHidden>
                                     <label>Bikesize: L</label>
                                         <label for="numberOfBikesSizeL_$tmpName">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeL_$tmpName" name="numberOfBikesSizeL_$tmpName"value="0"  min="0" max=$numberBikesL><br>
-                                        <input type="text" id="VariantSizeL_$tmpName" name="currentVariant_L_$tmpName" value=$variant></input><br>
+                                        <input type="number" id="numberOfBikesSizeL_$tmpName" name="size=L&$tmpName"value="0"  min="0" max=$numberBikesL><br>
+                                        <!-- <input type="text" id="VariantSizeL_$tmpName" name="currentVariant_L_$tmpName" value=$variant></input><br> -->
                                     </div>
                                     </div>
                                     OWN;
