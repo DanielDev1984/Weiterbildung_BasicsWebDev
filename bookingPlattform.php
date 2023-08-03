@@ -6,17 +6,19 @@
         <title>BookingPlattformTouristikBike</title>
  <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
-            /*todo: dont redefine the colors, but instead use variables /styles in the like of"mainColor" ...*/
+            <?php 
+                include "ColorDefinitions.php";
+            ?>
         body {
-            /*background-color: #9dd5eb;*/
-            background-image: linear-gradient(to right, #9dd5eb, rgba(171,214,221,0.8),  rgba(127,255,212,0.8));
+            background-image: <?php getBgImageWindow();?>;
             font-family: Arial, Helvetica, sans-serif;
         }
         h1 {
-            color: cadetblue;
-            background-image: linear-gradient(to right, rgba(171,214,221,0.8),  rgba(127,255,212,0.5));
-            /*background-color: #abd6dd;*/
+            color: <?php echo MainTextColor; ?>; 
+            background-image: <?php getBgMainText();?>;
         }
+        /*https://www.digitalocean.com/community/tutorials/css-collapsible*/
+        /*//////////////////////*/
         input[type='checkbox'] {
             display:none;
         }
@@ -27,8 +29,8 @@
         }
 
         .toggle {
-            color: cadetblue;
-            background-image: linear-gradient(to right, rgba(171,214,221,0.8),  rgba(127,255,212,0.5));
+            color: <?php echo MainTextColor; ?>; 
+            background-image: <?php getBgMainText();?>;
             
             display: block; /*needed for the css styled arrow: https://css-tricks.com/snippets/css/css-triangle/*/
             font-weight: bold;
@@ -36,7 +38,7 @@
             transition: all 0.25s ease-out;
         }
         .toggle:hover {
-            color: aquamarine;
+            color: <?php echo HighlightColor; ?>;
         }
         /*needed for the css styled arrow: https://css-tricks.com/snippets/css/css-triangle/*/
         .toggle::before {
@@ -59,6 +61,7 @@
         .toggle_cb:checked + .toggle + .collapsible-content {
             max-height: 100vh;
         }
+        /*//////////////////////*/
 
         select{
             background-color: #63bcdf;
@@ -80,9 +83,8 @@
             margin-left: 15px;
         }
         p.stubImage {
-            border:solid thick aquamarine;  
-            /*background: #a7dae0; */
-            background-image: linear-gradient(to right, rgba(171,214,221,0.9), rgba(127,255,212,0.5));
+            border:solid thick <?php echo HighlightColor; ?>;  
+            background-image: <?php getBgImageTiles(); ?>;
             border-radius: 0.75em; 
             border-width:5px; 
             margin:2px; 
@@ -106,16 +108,6 @@
         img.companyLogo {
             margin: 10px;
             align-self: center;
-        }
-        /* todo pass an according parameter (reflecting the variant color from the xml?)), or change the selector class depending on some condition */
-        img.dynamicHueImage0 {
-            filter: saturate(80%) hue-rotate(0deg);
-        }
-        img.dynamicHueImage120 {
-            filter: saturate(80%) hue-rotate(120deg);
-        }
-        img.dynamicHueImage300 {
-            filter: saturate(80%) hue-rotate(300deg);
         }
         select option[disabled] { color: lightgrey; font-weight: normal; }
         
@@ -154,8 +146,6 @@
                 ?>
             </div>
         </div>
-        
-        <section class="todo">Submitbutton missing</section> 
         <div>
             <h1>Choose Date and Category</h1>
             <h4>Select Bookingdate </h4>
