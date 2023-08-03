@@ -17,6 +17,49 @@
             background-image: linear-gradient(to right, rgba(171,214,221,0.8),  rgba(127,255,212,0.5));
             /*background-color: #abd6dd;*/
         }
+        input[type='checkbox'] {
+            display:none;
+        }
+        .collapsible-content {
+            max-height: 10px;
+            overflow: hidden;
+            transition: max-height 0.8s ease-in-out;
+        }
+
+        .toggle {
+            color: cadetblue;
+            background-image: linear-gradient(to right, rgba(171,214,221,0.8),  rgba(127,255,212,0.5));
+            
+            display: block; /*needed for the css styled arrow: https://css-tricks.com/snippets/css/css-triangle/*/
+            font-weight: bold;
+            font-size: 30px;
+            transition: all 0.25s ease-out;
+        }
+        .toggle:hover {
+            color: aquamarine;
+        }
+        /*needed for the css styled arrow: https://css-tricks.com/snippets/css/css-triangle/*/
+        .toggle::before {
+            content: ' ';
+            display: inline-block;
+
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid currentColor;
+
+            vertical-align: middle;
+            margin-right: .7rem;
+            transform: translateY(-25%);
+
+            transition: transform .2s ease-out;
+        }
+        .toggle_cb:checked + .toggle::before {
+            transform: rotate(90deg) translateX(-3px);
+        }
+        .toggle_cb:checked + .toggle + .collapsible-content {
+            max-height: 100vh;
+        }
+
         select{
             background-color: #63bcdf;
             color: #d2ecf6;
@@ -52,8 +95,17 @@
             display: flex;
             flex-direction: row;
         }
+        .flexColumn {
+            display: flex;
+            flex-direction: column;
+        }
         img.usericon {
-            
+            margin: 10px;
+            align-self: right;
+        }
+        img.companyLogo {
+            margin: 10px;
+            align-self: center;
         }
         /* todo pass an according parameter (reflecting the variant color from the xml?)), or change the selector class depending on some condition */
         img.dynamicHueImage0 {
@@ -78,20 +130,31 @@
 
         <!-- todo: where to reference the used font? -->
         <!-- font from here: https://www.fontspace.com/new/fonts - "Unbound Gamer" by Iconian Fonts -->
-        <img src="./Logo.png" alt="User icon" width="auto" height="auto">
+        <div class="flexRow">
+            <img class="companyLogo" src="./Logo.png" alt="User icon" width="auto" height="100%">
+            <div class="flexColumn">
+                <img class="usericon" src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="80" height="80">
+                <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
+            </div>
+        </div>
         <br>
-        <img class="usericon" src="./AssetCaseStudy_UserIcon.png" alt="User icon" width="50" height="auto">
-        <label class="Username">Logged in User</label> <!-- todo: align this under the icon -->
-        <h1>Already rented bikes</h1>
-        <!-- <div class="flexRow"> -->
-        <?php 
-            include "outsourcedFunction.php";
-            $bikeTypes = ["ROAD","MTB", "TOURING"];
-            //echo '<form method="post" action="" name="testForm">';
-            createBikesOverview("Rented","./User1.xml", $bikeTypes);
-            //echo '<input name="testForm" type="submit">';
-            //echo "</form>";
-        ?>
+        <!-- collapsible with css only: https://www.digitalocean.com/community/tutorials/css-collapsible -->
+        <div class="wrap-collapsible">
+            <input id="collapsible" class="toggle_cb" type="checkbox">
+            <label for="collapsible" class="toggle">Already rented bikes</label>
+            <!-- <div class="flexRow"> -->
+            <div class="collapsible-content">
+                <?php 
+                    include "outsourcedFunction.php";
+                    $bikeTypes = ["ROAD","MTB", "TOURING"];
+                    //echo '<form method="post" action="" name="testForm">';
+                    createBikesOverview("Rented","./User1.xml", $bikeTypes);
+                    //echo '<input name="testForm" type="submit">';
+                    //echo "</form>";
+                ?>
+            </div>
+        </div>
+        
         <section class="todo">Submitbutton missing</section> 
         <div>
             <h1>Choose Date and Category</h1>
