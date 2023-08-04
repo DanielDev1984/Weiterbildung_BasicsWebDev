@@ -40,22 +40,23 @@
 			filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
             
         }
+		/*todo: is this "highlight really centered? */
 		.sourrindinCircle {
 			width:  24px;
             height: 24px;
             background: none;
 			display: flex;
-  justify-content: center;
-  align-items: center;
-            border: 4px solid aquamarine;
+			justify-content: center;
+			align-items: center;
+            border: 4px solid aquamarine; /*todo: retrieve color from ColorDefinitions*/
 		}
 		.sourrindinCircle_Off {
 			width:  24px;
             height: 24px;
             background: none;
 			display: flex;
-  justify-content: center;
-  align-items: center;
+			justify-content: center;
+			align-items: center;
             border: 4px solid rgba(0,0,0,0%);
 		}
 		.localFlexRow {
@@ -187,6 +188,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
                             $hue_circle_A = getHueForVariant_circle("A");
 							$hue_circle_B = getHueForVariant_circle("B");
 							$hue_circle_C = getHueForVariant_circle("C");
+							//todo: think of a better way for switching the highlight on/off
 							$selectionHightlight_A = getSelectionHighlight("A", $variant);
 							$selectionHightlight_B = getSelectionHighlight("B", $variant);
 							$selectionHightlight_C = getSelectionHighlight("C", $variant);
