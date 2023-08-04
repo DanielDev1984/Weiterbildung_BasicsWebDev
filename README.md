@@ -7,5 +7,6 @@
 
 # landing page booking
 <img src="Screenshot_CurrentState_Booking.PNG">
+
 # overview of current booking-state ("cart")
 <img src="Screenshot_CurrentState_Overview.PNG">
