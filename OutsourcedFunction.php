@@ -1,29 +1,67 @@
 <?php 
+		/*todo outsource these definitions to ColorDefinitions-file*/
+		define ('BaseColorBike', '#f2af07'); //rgb(242,175,7)
+		define ('HueRotationVarA', '0');
+		define ('HueRotationVarB', '200');
+		define ('HueRotationVarC', '300');
+?>
+<!-- todo: outsource this to ColorDefinitions -> problems with multiple declarations / includes -->
+<style>
+        img.dynamicHueImageVarA {
+            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarA;?>deg);
+        }
+        img.dynamicHueImageVarB {
+            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarB;?>deg);
+        }
+        img.dynamicHueImageVarC {
+            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
+        }
+        .circleBase {
+			border-radius: 50%;
+        }
+        .circleVariantA {
+            width:  20px;
+            height: 20px;
+            background: <?php echo BaseColorBike;?>;
+            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarA;?>deg);
+            border: 1px solid #000;
+        }
+		.circleVariantB {
+            width:  20px;
+            height: 20px;
+            background: <?php echo BaseColorBike;?>;
+            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarB;?>deg);
+            border: 1px solid #000;
+        }
+		.circleVariantC {
+            width:  20px;
+            height: 20px;
+            background: <?php echo BaseColorBike;?>;
+            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
+            border: 1px solid #000;
+        }
+</style>
+
+<?php 
 function loadXml($xmlName) 
 {
   return simplexml_load_file($xmlName);
 }
 function getVariantsForType($xml, $bikeType, &$variantA_Bikes, &$variantB_Bikes, &$variantC_Bikes)
 {
-	//$bikeTypes = ["ROAD","MTB", "TOURING"];
 	foreach($xml as $node) {
 	$category = $node->CATEGORY;
-	//echo "$category <br>"; 
-	//echo "$bikeType <br>";
 	if($category == $bikeType){
 		if($node->VARIANT == "A")
 		{
-			//echo "varA";
 			$variantA_Bikes[] = $node;
 		}
 		elseif($node->VARIANT == "B")
 		{
-			//echo "varB";
 			$variantB_Bikes[] = $node;
 		}
 		elseif($node->VARIANT == "C")
 		{
-			//echo "varC";
 			$variantC_Bikes[] = $node;
 		}
 	}
@@ -38,23 +76,36 @@ function getSizesForVariant($variantSpecificBikes, &$sizesForVariant)
 }
 function getHueForVariant($variant)
 {
-	$hue = "dynamicHueImage0";
-    if($variant == "A")
+	$hue = "dynamicHueImageVarA";
+    if($variant == "B")
     {
-        $hue = "dynamicHueImage120";
+        $hue = "dynamicHueImageVarB";
     }
-    elseif($variant == "B")
+    elseif($variant == "C")
     {
-        $hue = "dynamicHueImage300";
+        $hue = "dynamicHueImageVarC";
     }
 	return $hue;
 }
+function getHueForVariant_circle($variant)
+{
+	$hue = "circleVariantA";
+    if($variant == "B")
+    {
+        $hue = "circleVariantB";
+    }
+    elseif($variant == "C")
+    {
+        $hue = "circleVariantC";
+    }
+	return $hue;
+}
+
 ?>
-<?php
+<?php /*todo: implement this with factory pattern (or sth more suitable for the task...)*/
 function createBikesOverview($config, $user, $bikeTypes) {
 			$xml = loadXml($user);
 			$buttonText= "noConfig";
-            /* todo this should be outsourced to a dedicated function than it could easily be used in the lateron used "Choose Bikes for rental" UI */
             echo '<form method="post" action="BookingOverview.php" name="testForm">';
             foreach($bikeTypes as $bikeType)
             {
@@ -101,6 +152,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
                             //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
                             $variant = $node->VARIANT;
                             $hue = getHueForVariant($variant);
+                            $hue_circle = getHueForVariant_circle($variant);
                             $numberRentedBikes = $node->RENTED;
                             /* todo: think of a smarter way to achieve conditional disabling of size-option*/
                             $sizeSHidden = "hidden";
@@ -161,26 +213,24 @@ function createBikesOverview($config, $user, $bikeTypes) {
 							$tmpName = "config=" . $config . "&" . "bikeType=". $bikeType . "&" . "variant=" . $variant;
                             echo <<<OWN
                                     <div class="bikeToChooseEntry">
-                                    <p class="stubImage">Variant $variant ($totalNumberOfBikesForVariant x)
+                                    <p class="stubImage">($totalNumberOfBikesForVariant x)
                                         <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
+                                    <div class="circleBase $hue_circle"></div>
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
                                         <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
                                         <input type="number" id="numberOfBikesSizeS_$tmpName" name="size=S&$tmpName" value="0" min="0" max=$numberBikesS><br>
-                                        <!-- <input type="text" id="VariantSizeS_$tmpName" name="currentVariant_S_$tmpName" value=$variant></input><br> -->
                                     </div>
                                     <div $sizeMHidden>
                                     <label>Bikesize: M</label>
                                         <label for="numberOfBikesSizeM_$tmpName">number of Bikes $description:</label><br>
                                         <input type="number" id="numberOfBikesSizeM_$tmpName" name="size=M&$tmpName" value="0" min="0" max=$numberBikesM><br>
-                                        <!-- <input type="text" id="VariantSizeM_$tmpName" name="currentVariant_M_$tmpName" value=$variant></input><br> -->
                                     </div>
                                     <div $sizeLHidden>
                                     <label>Bikesize: L</label>
                                         <label for="numberOfBikesSizeL_$tmpName">number of Bikes $description:</label><br>
                                         <input type="number" id="numberOfBikesSizeL_$tmpName" name="size=L&$tmpName"value="0"  min="0" max=$numberBikesL><br>
-                                        <!-- <input type="text" id="VariantSizeL_$tmpName" name="currentVariant_L_$tmpName" value=$variant></input><br> -->
                                     </div>
                                     </div>
                                     OWN;
