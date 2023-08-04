@@ -1,4 +1,10 @@
 ### Implementing a case study platform for renting bikes
+While doing so, learning the basics of "web development", e.g.:
+- php
+- CSS
+- HTML
+- XML
+
 ## "Features":
 - dymacally colored bike (preview) images
 - (color)ressources defined in a central place (ColorDefinitions)
