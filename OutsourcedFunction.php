@@ -24,21 +24,43 @@
             height: 20px;
             background: <?php echo BaseColorBike;?>;
             filter: saturate(80%) hue-rotate(<?php echo HueRotationVarA;?>deg);
-            border: 1px solid #000;
+            
         }
 		.circleVariantB {
             width:  20px;
             height: 20px;
             background: <?php echo BaseColorBike;?>;
             filter: saturate(80%) hue-rotate(<?php echo HueRotationVarB;?>deg);
-            border: 1px solid #000;
+            
         }
 		.circleVariantC {
             width:  20px;
             height: 20px;
             background: <?php echo BaseColorBike;?>;
-            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
-            border: 1px solid #000;
+			filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
+            
+        }
+		.sourrindinCircle {
+			width:  24px;
+            height: 24px;
+            background: none;
+			display: flex;
+  justify-content: center;
+  align-items: center;
+            border: 4px solid aquamarine;
+		}
+		.sourrindinCircle_Off {
+			width:  24px;
+            height: 24px;
+            background: none;
+			display: flex;
+  justify-content: center;
+  align-items: center;
+            border: 4px solid rgba(0,0,0,0%);
+		}
+		.localFlexRow {
+            display: flex;
+            flex-direction: row;
         }
 </style>
 
@@ -100,6 +122,15 @@ function getHueForVariant_circle($variant)
     }
 	return $hue;
 }
+function getSelectionHighlight($currentVariant, $variant)
+{
+	$selectionHighlight = "sourrindinCircle_Off";
+	if($currentVariant == $variant)
+	{
+		$selectionHighlight = "sourrindinCircle";
+	}
+	return $selectionHighlight;
+}
 
 ?>
 <?php /*todo: implement this with factory pattern (or sth more suitable for the task...)*/
@@ -152,7 +183,13 @@ function createBikesOverview($config, $user, $bikeTypes) {
                             //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
                             $variant = $node->VARIANT;
                             $hue = getHueForVariant($variant);
-                            $hue_circle = getHueForVariant_circle($variant);
+							//todo: remove hardvoded variants -> iterate over all available variants dynamically
+                            $hue_circle_A = getHueForVariant_circle("A");
+							$hue_circle_B = getHueForVariant_circle("B");
+							$hue_circle_C = getHueForVariant_circle("C");
+							$selectionHightlight_A = getSelectionHighlight("A", $variant);
+							$selectionHightlight_B = getSelectionHighlight("B", $variant);
+							$selectionHightlight_C = getSelectionHighlight("C", $variant);
                             $numberRentedBikes = $node->RENTED;
                             /* todo: think of a smarter way to achieve conditional disabling of size-option*/
                             $sizeSHidden = "hidden";
@@ -216,7 +253,17 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                     <p class="stubImage">($totalNumberOfBikesForVariant x)
                                         <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
-                                    <div class="circleBase $hue_circle"></div>
+                                    <div class="localFlexRow">
+                                         <div class="circleBase $selectionHightlight_A">
+                                             <div class="circleBase $hue_circle_A"></div>
+                                         </div>
+                                         <div class="circleBase $selectionHightlight_B">
+                                             <div class="circleBase $hue_circle_B"></div>
+                                         </div>
+                                         <div class="circleBase $selectionHightlight_C">
+                                             <div class="circleBase $hue_circle_C"></div>
+                                         </div>
+                                    </div>
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
                                         <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
