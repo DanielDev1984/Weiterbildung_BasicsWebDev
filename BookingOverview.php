@@ -23,16 +23,56 @@
 		div.row {
 			display: flex;
             flex-direction: row;
+			gap: 10px;
 		}
 		div.column {
 			display: flex;
             flex-direction: column;
+		
 		}
+		.circleBase {
+			border-radius: 50%;
+        }
+		/*todo: replace all the magic numbers */
+        .circleVariantA {
+            width:  20px;
+            height: 20px;
+            background: #f2af07; /* == BaseColorBike*/
+            filter: saturate(80%) hue-rotate(0deg);
+            
+        }
+		.circleVariantB {
+            width:  20px;
+            height: 20px;
+            background: #f2af07;
+            filter: saturate(80%) hue-rotate(200deg);
+            
+        }
+		.circleVariantC {
+            width:  20px;
+            height: 20px;
+            background: #f2af07;
+			filter: saturate(80%) hue-rotate(300deg);
+            
+        }
 		</style>
 	</head>
 	<body>
 		<form method="post" action="bookingPlattform.php" name="testForm">
 		<?php
+		    function getHueForVariant_circle_local($variant)
+			{
+				$hue = "circleVariantA";
+				if($variant == "B")
+				{
+					$hue = "circleVariantB";
+				}
+				elseif($variant == "C")
+				{
+					$hue = "circleVariantC";
+				}
+				return $hue;
+			}
 			$overviewSubTitle = "rented";
 			//todo: think about how to prevent reiterating over $_POST lateron again... maybe fill the array with all the booking info here already?
 			foreach($_POST as $key => $value)
@@ -49,27 +89,67 @@
 			echo "<h1>Booking overview (to be $overviewSubTitle bikes)</h1>";
 			
 			echo "<br>";
+			$roadArray = array();
+			$mtbArray = array();
+			$touringArray = array();
+			$bikeArray = array(array(array()));
 			foreach($_POST as $key => $value)
 			{
 				if($key != "placeOrder" && $value != 0) //prevent printing of "button" info AND dont display entry when nothing is "booked" (i.e. rented or returned)
 				{
-					//todo: make horizontal lines / separators shorter
-					echo "<hr>";
 					$testArray = array();
+					
 					parse_str($key, $testArray);
-					//print_r($testArray);
-					echo '<div class="row">';
-					echo '<div class="column">';
-					foreach($testArray as $arrayKey => $arrayVal)
+					$bikeType = $testArray["bikeType"];
+					$bikeVariant = $testArray["variant"];
+					$testArray['numberOfBikes'] = $value;
+					if($bikeType == "ROAD")
 					{
-						echo $arrayKey . ":" . $arrayVal . "<br>";
+						//add the missing number of bikes value here
+						//todo: why is this value not available from the beginning (as all the others?)
+						$testArray['numberOfBikes'] = $value;
+						$roadArray[] = $testArray;
 					}
-					echo "</div>";
-					echo "Number of bikes:" . $value;
-					//echo "configuration: $testArray['config']";
-					echo "<br>";
-					//echo "$key : $value";	
-					echo "</div>";
+					elseif($bikeType == "MTB")
+					{
+						$testArray['numberOfBikes'] = $value;
+						$mtbArray[] = $testArray;
+					}
+					elseif($bikeType == "TOURING")
+					{
+						$testArray['numberOfBikes'] = $value;
+						$touringArray[] = $testArray;
+					}
+					// remove the biketype as we have a key for this...
+					unset($testArray['bikeType']);
+					unset($testArray['variant']);
+					unset($testArray['config']);
+					$bikeArray[$bikeType][$bikeVariant][] = $testArray;
+				}
+			}
+			foreach($bikeArray as $bikeCategory => $valuesOfCategory)
+			{
+				if($bikeCategory != "0")
+				{
+					echo "<h1> Bike category: " . $bikeCategory . "</h1>";
+					foreach($valuesOfCategory as $variant => $valuesOfVariant)
+					{
+						echo '<div class="row">';
+						$circleVariant = getHueForVariant_circle_local($variant);
+                    	echo <<<OWN
+								<div class="circleBase $circleVariant"></div>
+								OWN;
+						foreach($valuesOfVariant as $variantInfo => $value)
+						{
+							foreach($value as $tag => $tagValue)
+							{
+								echo $tag . ": " . $tagValue . " ";
+							}
+							echo "<br>"	;
+						}
+						echo "</div>";
+						echo "<hr>";
+					}
 				}
 			}
 		?>
