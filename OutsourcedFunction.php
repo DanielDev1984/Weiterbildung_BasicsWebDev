@@ -63,6 +63,85 @@
             display: flex;
             flex-direction: row;
         }
+		.localFlexRowVariants {
+            display: flex;
+            flex-direction: row;
+			padding-bottom:20px;
+        }
+		.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0%;
+  cursor: pointer;
+}
+		.module_a::before {
+    position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #f2af07;
+  filter: saturate(80%) hue-rotate(0deg);
+  border-radius: 50%;
+  border: 4px solid darkgrey;
+  content: " ";
+}
+.module_b::before {
+    position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #f2af07;
+  filter: saturate(80%) hue-rotate(200deg);
+  border-radius: 50%;
+  border: 4px solid darkgrey;
+  content: " ";
+}
+.module_c::before {
+    position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #f2af07;
+  filter: saturate(80%) hue-rotate(300deg);
+  border-radius: 50%;
+  border: 4px solid darkgrey;
+  content: " ";
+}
+.module-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: none;
+  border-radius: 50%;
+  border: 4px solid darkgrey;
+}
+input:checked + .module_a > .module-inside {
+    border: 4px solid aquamarine;
+}
+input:checked + .module_b > .module-inside {
+    border: 4px solid aquamarine;
+}
+input:checked + .module_c > .module-inside {
+    border: 4px solid aquamarine;
+}
 </style>
 
 <?php 
@@ -255,7 +334,28 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                     <p class="stubImage">($totalNumberOfBikesForVariant x)
                                         <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
-                                    <div class="localFlexRow">
+                                    <div class="localFlexRowVariants">
+                                        <label class="container">
+                                             <input type="radio" checked="checked" name="radio">
+                                             <span class="module_a">
+                                                 <span class="module-inside"></span>
+                                             </span>
+                                        </label>
+                                        <label class="container">
+                                             <input type="radio" name="radio">
+                                             <span class="module_b">
+                                                 <span class="module-inside"></span>
+                                             </span>
+                                        </label>
+                                        <label class="container">
+                                             <input type="radio" name="radio">
+                                             <span class="module_c">
+                                                  <span class="module-inside"></span>
+                                             </span>
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- <div class="localFlexRow">
                                          <div class="circleBase $selectionHightlight_A">
                                              <div class="circleBase $hue_circle_A"></div>
                                          </div>
@@ -265,7 +365,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                          <div class="circleBase $selectionHightlight_C">
                                              <div class="circleBase $hue_circle_C"></div>
                                          </div>
-                                    </div>
+                                    </div> -->
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
                                         <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
