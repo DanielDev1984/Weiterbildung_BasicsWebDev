@@ -87,7 +87,6 @@
 				}
 			}
 			echo "<h1>Booking overview (to be $overviewSubTitle bikes)</h1>";
-			
 			echo "<br>";
 			$roadArray = array();
 			$mtbArray = array();
@@ -95,7 +94,7 @@
 			$bikeArray = array(array(array()));
 			foreach($_POST as $key => $value)
 			{
-				if($key != "placeOrder" && $value != 0) //prevent printing of "button" info AND dont display entry when nothing is "booked" (i.e. rented or returned)
+				if($key != "placeOrder" && $key != "radio" && $value != 0) //prevent printing of "button" info AND dont display entry when nothing is "booked" (i.e. rented or returned)
 				{
 					$testArray = array();
 					
