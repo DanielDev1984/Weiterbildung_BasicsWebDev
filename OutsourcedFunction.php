@@ -218,6 +218,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
 			$xml = loadXml($user);
 			$buttonText= "noConfig";
             echo '<form method="post" action="BookingOverview.php" name="testForm">';
+            echo '<div class="flexRow">';
             foreach($bikeTypes as $bikeType)
             {
                 if($config=="Rental")
@@ -404,6 +405,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
             }
             echo "</div>";
             }
+            echo "</div>";
 			echo '<section class="todo">make button text dynamic</section>';
 			echo '<input name="placeOrder" type="submit">';
 			
