@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>BookingPlattformTouristikBike</title>
  <link rel="icon" type="image/x-icon" href="favicon.ico">
-        <style>
+        <style> /*todo: outsource to dedicated styles.css*/
             <?php 
                 include "ColorDefinitions.php";
             ?>
@@ -111,7 +111,6 @@
         }
         select option[disabled] { color: lightgrey; font-weight: normal; }
         
-
         /* helper style for visually identifying ToDos*/
         .todo {
             color: red;
@@ -130,6 +129,11 @@
             </div>
         </div>
         <br>
+
+
+
+
+
         <!-- collapsible with css only: https://www.digitalocean.com/community/tutorials/css-collapsible -->
         <div class="wrap-collapsible">
             <input id="collapsible" class="toggle_cb" type="checkbox">

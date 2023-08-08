@@ -94,11 +94,13 @@
 			$bikeArray = array(array(array()));
 			foreach($_POST as $key => $value)
 			{
-				if($key != "placeOrder" && $key != "radio" && $value != 0) //prevent printing of "button" info AND dont display entry when nothing is "booked" (i.e. rented or returned)
+				//todo: this condition is rather brute force / not intelligent... how to make it nicer?
+				if($key != "placeOrder" && !(str_contains($key, "radio")) && $value != 0) //prevent printing of "button" info AND dont display entry when nothing is "booked" (i.e. rented or returned)
 				{
 					$testArray = array();
 					
 					parse_str($key, $testArray);
+					//todo: check whether $key aktually exists before acessing it (-> https://www.php.net/manual/en/function.array-key-exists.php)
 					$bikeType = $testArray["bikeType"];
 					$bikeVariant = $testArray["variant"];
 					$testArray['numberOfBikes'] = $value;

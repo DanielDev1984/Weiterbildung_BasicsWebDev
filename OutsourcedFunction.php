@@ -329,26 +329,46 @@ function createBikesOverview($config, $user, $bikeTypes) {
 								$description = "to rent";
 							}
 							$tmpName = "config=" . $config . "&" . "bikeType=". $bikeType . "&" . "variant=" . $variant;
+
                             echo <<<OWN
-                                    <div class="bikeToChooseEntry">
+                                    <script>
+                                    function toggleElementVisibility_A(element) {
+                                        element.style.display = "block";
+                                        document.getElementById("var_B").style.display = "none";
+                                        document.getElementById("var_C").style.display = "none";
+                                    }
+                                    function toggleElementVisibility_B(element) {
+                                        element.style.display = "block";
+                                        document.getElementById("var_A").style.display = "none";
+                                        document.getElementById("var_C").style.display = "none";
+                                    }
+                                    function toggleElementVisibility_C(element) {
+                                        element.style.display = "block";
+                                        document.getElementById("var_A").style.display = "none";
+                                        document.getElementById("var_B").style.display = "none";
+                                    }
+                                    </script>
+                                    <div id="var_$variant" class="bikeToChooseEntry">
                                     <p class="stubImage">($totalNumberOfBikesForVariant x)
-                                        <img class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
+                                        <img  class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
+
+                                    <!-- todo: only show the variants that are actually available -->
                                     <div class="localFlexRowVariants">
                                         <label class="container">
-                                             <input type="radio" checked="checked" name="radio">
+                                             <input type="radio" name="radio_$bikeType" value="VarA" onclick='toggleElementVisibility_A(document.getElementById("var_A"))'>
                                              <span class="module_a">
                                                  <span class="module-inside"></span>
                                              </span>
                                         </label>
                                         <label class="container">
-                                             <input type="radio" name="radio">
+                                        <input type="radio" name="radio_$bikeType" value="VarB" onclick='toggleElementVisibility_B(document.getElementById("var_B"))'>
                                              <span class="module_b">
                                                  <span class="module-inside"></span>
                                              </span>
                                         </label>
                                         <label class="container">
-                                             <input type="radio" name="radio">
+                                        <input type="radio" name="radio_$bikeType" value="VarC" onclick='toggleElementVisibility_C(document.getElementById("var_C"))'>
                                              <span class="module_c">
                                                   <span class="module-inside"></span>
                                              </span>
@@ -366,6 +386,7 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                              <div class="circleBase $hue_circle_C"></div>
                                          </div>
                                     </div> -->
+                                    
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
                                         <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
@@ -381,8 +402,9 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                         <label for="numberOfBikesSizeL_$tmpName">number of Bikes $description:</label><br>
                                         <input type="number" id="numberOfBikesSizeL_$tmpName" name="size=L&$tmpName"value="0"  min="0" max=$numberBikesL><br>
                                     </div>
+                                    
                                     </div>
-                                    OWN;
+                                    OWN;    
                         
                 }
             }
