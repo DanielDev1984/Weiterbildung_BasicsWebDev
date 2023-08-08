@@ -328,27 +328,21 @@ function createBikesOverview($config, $user, $bikeTypes) {
 							{
 								$description = "to rent";
 							}
+                            // format that allows for easier parsing lateron in the booking overview
 							$tmpName = "config=" . $config . "&" . "bikeType=". $bikeType . "&" . "variant=" . $variant;
-
+                            $tile = "var_" . $bikeType . "_" . $variant;
+                            $staticKeyA = "var_" . $bikeType . "_A";
+                            $staticKeyB = "var_" . $bikeType . "_B";
+                            $staticKeyC = "var_" . $bikeType . "_C";
                             echo <<<OWN
                                     <script>
-                                    function toggleElementVisibility_A(element) {
-                                        element.style.display = "block";
-                                        document.getElementById("var_B").style.display = "none";
-                                        document.getElementById("var_C").style.display = "none";
-                                    }
-                                    function toggleElementVisibility_B(element) {
-                                        element.style.display = "block";
-                                        document.getElementById("var_A").style.display = "none";
-                                        document.getElementById("var_C").style.display = "none";
-                                    }
-                                    function toggleElementVisibility_C(element) {
-                                        element.style.display = "block";
-                                        document.getElementById("var_A").style.display = "none";
-                                        document.getElementById("var_B").style.display = "none";
+                                    function toggleElementVisibilities(elementToShow, elementToHide_1, elementToHide_2) {
+                                        elementToShow.style.display = "block";
+                                        elementToHide_1.style.display = "none";
+                                        elementToHide_2.style.display = "none";
                                     }
                                     </script>
-                                    <div id="var_$variant" class="bikeToChooseEntry">
+                                    <div id="$tile" class="bikeToChooseEntry">
                                     <p class="stubImage">($totalNumberOfBikesForVariant x)
                                         <img  class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
@@ -356,19 +350,19 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                     <!-- todo: only show the variants that are actually available -->
                                     <div class="localFlexRowVariants">
                                         <label class="container">
-                                             <input type="radio" name="radio_$bikeType" value="VarA" onclick='toggleElementVisibility_A(document.getElementById("var_A"))'>
+                                             <input type="radio" name="radio_$bikeType" value="VarA" onclick='toggleElementVisibilities(document.getElementById("$staticKeyA"), document.getElementById("$staticKeyB"), document.getElementById("$staticKeyC"))'>
                                              <span class="module_a">
                                                  <span class="module-inside"></span>
                                              </span>
                                         </label>
                                         <label class="container">
-                                        <input type="radio" name="radio_$bikeType" value="VarB" onclick='toggleElementVisibility_B(document.getElementById("var_B"))'>
+                                        <input type="radio" name="radio_$bikeType" value="VarB" onclick='toggleElementVisibilities(document.getElementById("$staticKeyB"), document.getElementById("$staticKeyA"), document.getElementById("$staticKeyC"))'>
                                              <span class="module_b">
                                                  <span class="module-inside"></span>
                                              </span>
                                         </label>
                                         <label class="container">
-                                        <input type="radio" name="radio_$bikeType" value="VarC" onclick='toggleElementVisibility_C(document.getElementById("var_C"))'>
+                                        <input type="radio" name="radio_$bikeType" value="VarC" onclick='toggleElementVisibilities(document.getElementById("$staticKeyC"), document.getElementById("$staticKeyA"), document.getElementById("$staticKeyB"))'>
                                              <span class="module_c">
                                                   <span class="module-inside"></span>
                                              </span>
