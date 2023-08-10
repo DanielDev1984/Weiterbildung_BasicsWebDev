@@ -4,12 +4,19 @@ While doing so, learning the basics of "web development", e.g.:
 - CSS
 - HTML
 - XML
+- JS
 
 ## "Features":
-- dymacally colored bike (preview) images
-- (color)ressources defined in a central place (ColorDefinitions)
-- "database" (user.xml) data is being used for retrieving the number of already rented / available bikes
-- collapsible "already rented" section
+- centralized Color(resource) management
+- dedicated user vs bikeStock „database“ (xml)
+- dynamically colored bike variants
+- collapsible „rented bikes“ overview (CSS-only)
+  - number of to be returned bikes limited by „RENTED“-tag in user.xml
+- own favicon
+- ways of interacting with the booking system:
+  - return bike
+  - rent bike
+- customized RadioButton for selecting the variant → describe how :before and „inner“/“inside“ is working
 
 # landing page booking
 <img src="Screenshot_CurrentState_Booking.PNG">
