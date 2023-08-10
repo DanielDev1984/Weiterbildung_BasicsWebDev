@@ -334,6 +334,7 @@ function createBikesOverview($config, $pathToXmlDB, $bikeTypes) {
                                         </label>
                                     </div>
                                     <!-- hide the input components when there is no bike for the selected variant -->
+                                    <!-- todo_COSMETIC: make these inputs appearance match the rest of the application -->
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
                                         <label for="numberOfBikesSizeS_$parsableBikeDescription">number of Bikes $description:</label><br>
