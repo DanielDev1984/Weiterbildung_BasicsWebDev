@@ -5,62 +5,91 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>BookingOverview</title>
 		<style>
-		body {
-            background-image: linear-gradient(to right, #9dd5eb, rgba(171,214,221,0.8),  rgba(127,255,212,0.8));
-            font-family: Arial, Helvetica, sans-serif;
-        }
-		h1 {
-			color: cadetblue;
-			background-image: linear-gradient(to right, rgba(171,214,221,0.9), rgba(127,255,212,0.5));
-		}
-		input {
-			font-size:50px;
-			background: aquamarine;
-			border-radius: 0.5em;
-			margin-left: 15px;
-			margin-top: 15px;
-		}
-		div.row {
-			display: flex;
-            flex-direction: row;
-			gap: 10px;
-		}
-		div.column {
-			display: flex;
-            flex-direction: column;
-		
-		}
-		.circleBase {
-			border-radius: 50%;
-        }
-		/*todo: replace all the magic numbers */
-        .circleVariantA {
-            width:  20px;
-            height: 20px;
-            background: #f2af07; /* == BaseColorBike*/
-            filter: saturate(80%) hue-rotate(0deg);
-            
-        }
-		.circleVariantB {
-            width:  20px;
-            height: 20px;
-            background: #f2af07;
-            filter: saturate(80%) hue-rotate(200deg);
-            
-        }
-		.circleVariantC {
-            width:  20px;
-            height: 20px;
-            background: #f2af07;
-			filter: saturate(80%) hue-rotate(300deg);
-            
-        }
+			<?php 
+                /* just make sure that all needed color definitions are available */
+                require_once("ColorDefinitions.php");
+            ?>
+			body {
+				/* todo_TECHDEBT: use global style instead of redefinition */
+            	background-image: <?php getBgImageWindow();?>;
+            	font-family: Arial, Helvetica, sans-serif;
+        	}
+			h1 {
+				/* todo_TECHDEBT: use global style instead of redefinition */
+				color: <?php echo MainTextColor; ?>; 
+            	background-image: <?php getBgMainText();?>;
+			}
+			input.cancel {
+				font-size:60px;
+				background: none;
+				color: grey;
+				cursor: pointer;
+				border:none;  
+				min-width:60px;
+				min-height:60px;
+				margin-left: 15px;
+				margin-top: 15px;
+				align-self: center;
+			}
+			input.cancel:hover {
+            	color: <?php echo HighlightColor; ?>; 
+			}
+			input.confirm {
+				font-size:60px;
+				background: none;
+				color: grey;
+				cursor: pointer;
+				border: none;
+				min-width:60px;
+				min-height:60px;
+				margin-left: 15px;
+				margin-top: 15px;
+				align-self: center;
+			}
+			input.confirm:hover {
+            	color: <?php echo HighlightColor; ?>; 
+			}
+			/* todo_TECHDEBT: these layouting schemes dont have to be defined in every used file... */
+			div.row {
+				display: flex;
+            	flex-direction: row;
+				gap: 10px;
+			}
+			div.column {
+				display: flex;
+            	flex-direction: column;
+			}
+			/* visual cues ("circles") indicating the variant of the booked bikes */
+			.circleBase {
+				border-radius: 50%;
+        	}
+			/* todo_TECHDEBT: dont redefine the visual appearance of the variant-indicators here again as they look the same on the "booking"-side as well */
+        	.circleVariantA {
+            	width:  20px;
+            	height: 20px;
+            	background: <?php echo BaseColorBike;?>; /* == BaseColorBike*/
+            	filter: saturate(80%) hue-rotate(<?php echo HueRotationVarA;?>deg);
+        	}
+			.circleVariantB {
+            	width:  20px;
+            	height: 20px;
+            	background: <?php echo BaseColorBike;?>;
+            	filter: saturate(80%) hue-rotate(<?php echo HueRotationVarB;?>deg);
+        	}
+			.circleVariantC {
+            	width:  20px;
+            	height: 20px;
+            	background: <?php echo BaseColorBike;?>;
+				filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
+			}
 		</style>
 	</head>
 	<body>
-		<form method="post" action="bookingPlattform.php" name="testForm">
+		<!-- return back to bookingPlattform -->
+		<!-- todo_TECHDEBT: is there no way to prevent complete reloading of "index"-page? maybe sth with AJAX? -->
+		<form method="post" action="bookingPlattform.php">
 		<?php
-		    function getHueForVariant_circle_local($variant)
+		    function getHueForVariant_circle($variant)
 			{
 				$hue = "circleVariantA";
 				if($variant == "B")
@@ -74,14 +103,15 @@
 				return $hue;
 			}
 			$overviewSubTitle = "rented";
-			//todo: think about how to prevent reiterating over $_POST lateron again... maybe fill the array with all the booking info here already?
+			//todo_TECHDEBT: think about how to prevent reiterating over $_POST lateron again... maybe fill the array with all the booking info here already?
+			/* retrieve info about source of the data -> are bikes meant to be returned, or booked? */
 			foreach($_POST as $key => $value)
 			{
-				//todo: cant the config be read from somewhere else? does really every entry have to carry this information?
+				//todo_TECHDEBT: cant the config be read from somewhere else? does really every entry has to carry this information?
 				if(str_contains($key, "Rented"))
 				{
 					// when the input comes from the "Rented"-bikes overview, the user wishes to return bikes
-					//todo: think of a more intuitive solution for this...
+					//todo_POTENTIALBUG: think of a more intuitive solution for this...
 					$overviewSubTitle = "returned";
 					break;
 				}
@@ -92,40 +122,57 @@
 			$mtbArray = array();
 			$touringArray = array();
 			$bikeArray = array(array(array()));
+			/* todo_TECHDEBT: atm the key carries almost all (except for numberOfBikes) relevant info regarding the bikes -> make this nicer! */
+			/* todo_TECHDEBT: this is a rather cumbersome way of extracting the needed data -> think of sth more intuitive / easier */
+			/* structure (i.e. sort according to category, variant, size) the bookingData to make it easier for displaying these lateron */
 			foreach($_POST as $key => $value)
 			{
-				//todo: this condition is rather brute force / not intelligent... how to make it nicer?
+				//todo_POTENTIALBUG: this condition is rather brute force / not intelligent... how to make it nicer?
+				/* only read the data that actually comes from the bikes(xml) and ignore other potential info in $_POST */
 				if($key != "placeOrder" && !(str_contains($key, "radio")) && $value != 0) //prevent printing of "button" info AND dont display entry when nothing is "booked" (i.e. rented or returned)
 				{
-					$testArray = array();
+					$bikeInfo = array();
+					/* parse the relevant info into the according key => value pairs */
+					parse_str($key, $bikeInfo);
+					/* add number of bikes as this is not part of the parsed data */
+					$bikeInfo['numberOfBikes'] = $value;
+					/* todo_POTENTIALBUG: this only works if the string-format fits the name of the used keys -> can(`t) this be made more flexible? */
+					if(array_key_exists("bikeType", $bikeInfo))
+					{
+						$bikeType = $bikeInfo["bikeType"];
+					}
+					else
+					{
+						/* todo_TECHDEBT: add errorhandling (e.g. consoleLog, die(), setDefaultValue(), ...) */
+					}
+
+					if(array_key_exists("variant", $bikeInfo))
+					{
+						$bikeVariant = $bikeInfo["variant"];
+					}
+					else
+					{
+						/* todo_TECHDEBT: add errorhandling (e.g. consoleLog, die(), setDefaultValue(), ...) */
+					}
 					
-					parse_str($key, $testArray);
-					//todo: check whether $key aktually exists before acessing it (-> https://www.php.net/manual/en/function.array-key-exists.php)
-					$bikeType = $testArray["bikeType"];
-					$bikeVariant = $testArray["variant"];
-					$testArray['numberOfBikes'] = $value;
 					if($bikeType == "ROAD")
 					{
-						//add the missing number of bikes value here
-						//todo: why is this value not available from the beginning (as all the others?)
-						$testArray['numberOfBikes'] = $value;
-						$roadArray[] = $testArray;
+						$roadArray[] = $bikeInfo;
 					}
 					elseif($bikeType == "MTB")
 					{
-						$testArray['numberOfBikes'] = $value;
-						$mtbArray[] = $testArray;
+						$mtbArray[] = $bikeInfo;
 					}
 					elseif($bikeType == "TOURING")
 					{
-						$testArray['numberOfBikes'] = $value;
-						$touringArray[] = $testArray;
+						$touringArray[] = $bikeInfo;
 					}
-					// remove the biketype as we have a key for this...
-					unset($testArray['bikeType']);
-					unset($testArray['variant']);
-					unset($testArray['config']);
-					$bikeArray[$bikeType][$bikeVariant][] = $testArray;
+					// remove some keys before copying the data into a more structured array
+					unset($bikeInfo['bikeType']);
+					unset($bikeInfo['variant']);
+					unset($bikeInfo['config']);
+					
+					$bikeArray[$bikeType][$bikeVariant][] = $bikeInfo;
 				}
 			}
 			foreach($bikeArray as $bikeCategory => $valuesOfCategory)
@@ -136,7 +183,7 @@
 					foreach($valuesOfCategory as $variant => $valuesOfVariant)
 					{
 						echo '<div class="row">';
-						$circleVariant = getHueForVariant_circle_local($variant);
+						$circleVariant = getHueForVariant_circle($variant);
                     	echo <<<OWN
 								<div class="circleBase $circleVariant"></div>
 								OWN;
@@ -155,7 +202,10 @@
 			}
 		?>
 		<br>
-		<input name="backToMain" type="submit" value="&#9754">
+		<!-- todo_COSMETIC: replace "hand"-icon with arrow -->
+		<input class="cancel" name="cancelBooking" type="submit" value="&#128913">
+		<!-- todo_TECHDEBT: shouldnt lead back to "landing"-page -->
+		<input class="confirm"name="confirmBooking" type="submit" value="&#128917">
 		</form>
 	</body>
 </html>

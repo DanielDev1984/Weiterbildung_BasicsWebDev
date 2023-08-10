@@ -1,12 +1,35 @@
 <?php 
-		/*todo outsource these definitions to ColorDefinitions-file*/
-		define ('BaseColorBike', '#f2af07'); //rgb(242,175,7)
-		define ('HueRotationVarA', '0');
-		define ('HueRotationVarB', '200');
-		define ('HueRotationVarC', '300');
+    /* require the herein used color definitions */
+    require_once("ColorDefinitions.php");
 ?>
-<!-- todo: outsource this to ColorDefinitions -> problems with multiple declarations / includes -->
 <style>
+        .localFlexRow {
+            display: flex;
+            flex-direction: row;
+        }
+		.localFlexRowVariants {
+            display: flex;
+            flex-direction: row;
+			padding-bottom:20px;
+        }
+
+         p.stubImage {
+            border:solid thick <?php echo HighlightColor; ?>;  
+            background-image: <?php getBgImageTiles(); ?>;
+            border-radius: 0.75em; 
+            border-width:5px; 
+            margin:2px; 
+            width:150px; 
+            height:150px;
+            align-self: center;
+        }
+        div.bikeToChooseEntry {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15px;
+        }
+        /* todo_TECHDEBT: remove hardcoded resources/classes for each vairant -> this could be outsourced to a function */
+        /* dynamically (re-) color the bike frames, relative to their basecolor, by changing the hue-angle (->hsv model:https://www.johnpaulcaponigro.com/blog/wp-content/uploads/2021/02/hue_clock.jpg)*/
         img.dynamicHueImageVarA {
             filter: saturate(80%) hue-rotate(<?php echo HueRotationVarA;?>deg);
         }
@@ -16,144 +39,131 @@
         img.dynamicHueImageVarC {
             filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
         }
-        .circleBase {
-			border-radius: 50%;
-        }
-        .circleVariantA {
-            width:  20px;
-            height: 20px;
-            background: <?php echo BaseColorBike;?>;
-            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarA;?>deg);
-            
-        }
-		.circleVariantB {
-            width:  20px;
-            height: 20px;
-            background: <?php echo BaseColorBike;?>;
-            filter: saturate(80%) hue-rotate(<?php echo HueRotationVarB;?>deg);
-            
-        }
-		.circleVariantC {
-            width:  20px;
-            height: 20px;
-            background: <?php echo BaseColorBike;?>;
-			filter: saturate(80%) hue-rotate(<?php echo HueRotationVarC;?>deg);
-            
-        }
-		/*todo: is this "highlight really centered? */
-		.sourrindinCircle {
-			width:  24px;
-            height: 24px;
-            background: none;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-            border: 4px solid aquamarine; /*todo: retrieve color from ColorDefinitions*/
-		}
-		.sourrindinCircle_Off {
-			width:  24px;
-            height: 24px;
-            background: none;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-            border: 4px solid rgba(0,0,0,0%);
-		}
-		.localFlexRow {
-            display: flex;
-            flex-direction: row;
-        }
-		.localFlexRowVariants {
-            display: flex;
-            flex-direction: row;
-			padding-bottom:20px;
-        }
-		.container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 
-/* Hide the browser's default radio button */
-.container input {
-  position: absolute;
-  opacity: 0%;
-  cursor: pointer;
-}
+        /* todo_TECHDEBT: this is only a helper selector for aligning the rent / return button+text correctly */
+        div.marginLeftContainer {
+            margin-left: 15px;
+        }
+        
+        input.placeOrderInput {
+            border:solid thick grey;  
+            background-color: none;
+            border-radius: 0.25em; 
+            border-width:2px; 
+            color: grey;
+            font-weight: bold;
+            font-size: 18px;
+            width: 80px;
+            display: flex;
+            margin-bottom:2px;
+        }
+        input.placeOrderInput:hover {
+            cursor:pointer;
+            border:solid thick <?php echo HighlightColor; ?>; 
+            border-width:3px; 
+            color: <?php echo HighlightColor; ?>;
+        }
+
+        /* variant selection with customized radiobutton BEGIN */        
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            user-select: none;
+        }
+        /* Hide the browser's default radio button */
+        .container input {
+            position: absolute;
+            opacity: 0%;
+            cursor: pointer;
+        }
 		.module_a::before {
-    position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #f2af07;
-  filter: saturate(80%) hue-rotate(0deg);
-  border-radius: 50%;
-  border: 4px solid darkgrey;
-  content: " ";
-}
-.module_b::before {
-    position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #f2af07;
-  filter: saturate(80%) hue-rotate(200deg);
-  border-radius: 50%;
-  border: 4px solid darkgrey;
-  content: " ";
-}
-.module_c::before {
-    position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #f2af07;
-  filter: saturate(80%) hue-rotate(300deg);
-  border-radius: 50%;
-  border: 4px solid darkgrey;
-  content: " ";
-}
-.module-inside {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: none;
-  border-radius: 50%;
-  border: 4px solid darkgrey;
-}
-input:checked + .module_a > .module-inside {
-    border: 4px solid aquamarine;
-}
-input:checked + .module_b > .module-inside {
-    border: 4px solid aquamarine;
-}
-input:checked + .module_c > .module-inside {
-    border: 4px solid aquamarine;
-}
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #f2af07;
+            filter: saturate(80%) hue-rotate(0deg);
+            border-radius: 50%;
+            border: 4px solid darkgrey;
+            content: " ";
+        }
+        .module_b::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #f2af07;
+            filter: saturate(80%) hue-rotate(200deg);
+            border-radius: 50%;
+            border: 4px solid darkgrey;
+            content: " ";
+        }
+        .module_c::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #f2af07;
+            filter: saturate(80%) hue-rotate(300deg);
+            border-radius: 50%;
+            border: 4px solid darkgrey;
+            content: " ";
+        }
+        .module-inside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: none;
+            border-radius: 50%;
+            border: 4px solid darkgrey;
+        }
+        /* use pseudoclass with combinators to determine whether a highlight shall be shown on the radiobutton */
+        /* todo_TECHDEBT: use a function for this instead of css */
+        input:checked + .module_a > .module-inside {
+            border: 4px solid aquamarine;
+        }
+        input:checked + .module_b > .module-inside {
+            border: 4px solid aquamarine;
+        }
+        input:checked + .module_c > .module-inside {
+            border: 4px solid aquamarine;
+        }
+        /* variant selection with customized radiobutton END */
 </style>
 
 <?php 
-function loadXml($xmlName) 
+/*
+parameter overview:
+- $pathToXml: the path to the xml-file to be loaded
+*/
+function loadXml($pathToXml) 
 {
-  return simplexml_load_file($xmlName);
+  return simplexml_load_file($pathToXml);
 }
-function getVariantsForType($xml, $bikeType, &$variantA_Bikes, &$variantB_Bikes, &$variantC_Bikes)
+/*
+parameter overview:
+- $xmlTree: the already loaded xml tree to be parsed
+- $bikeType: the bikeType to be checked for available variants
+- &variant*_Bikes: the variant-specific arrays of all bikes for the given category (pass by reference!)
+*/
+/* from a given xml, retrieve all available variants of a requested bike category*/
+function getVariantsForType($xmlTree, $bikeType, &$variantA_Bikes, &$variantB_Bikes, &$variantC_Bikes)
 {
-	foreach($xml as $node) {
+    /* travel through the xml tree */
+	foreach($xmlTree as $node) {
 	$category = $node->CATEGORY;
+    /* only take bikes of requested category into account */
 	if($category == $bikeType){
+        /* and add the available variants to their corresponding array */
 		if($node->VARIANT == "A")
 		{
 			$variantA_Bikes[] = $node;
@@ -169,13 +179,12 @@ function getVariantsForType($xml, $bikeType, &$variantA_Bikes, &$variantB_Bikes,
 	}
 	}
 }
-function getSizesForVariant($variantSpecificBikes, &$sizesForVariant)
-{
-	foreach($variantSpecificBikes as $bike)
-    {
-        $sizesForVariant[] = $bike->SIZE;
-    }
-}
+/*
+parameter overview:
+- $variant: the variant for which the hue is being returned
+*/
+/* todo_POTENTIALBUG: this is a rather fragile construct as it relies heavily on the class names -> think of a more robust solution */
+/*retrieve the hue-class name for a given variant */
 function getHueForVariant($variant)
 {
 	$hue = "dynamicHueImageVarA";
@@ -189,69 +198,46 @@ function getHueForVariant($variant)
     }
 	return $hue;
 }
-function getHueForVariant_circle($variant)
-{
-	$hue = "circleVariantA";
-    if($variant == "B")
-    {
-        $hue = "circleVariantB";
-    }
-    elseif($variant == "C")
-    {
-        $hue = "circleVariantC";
-    }
-	return $hue;
-}
-function getSelectionHighlight($currentVariant, $variant)
-{
-	$selectionHighlight = "sourrindinCircle_Off";
-	if($currentVariant == $variant)
-	{
-		$selectionHighlight = "sourrindinCircle";
-	}
-	return $selectionHighlight;
-}
 
 ?>
-<?php /*todo: implement this with factory pattern (or sth more suitable for the task...)*/
-function createBikesOverview($config, $user, $bikeTypes) {
-			$xml = loadXml($user);
+<?php 
+/*
+parameter overview:
+- $config: the configuration for which a bike overview shall be generated (i.e.: are bikes going to be rented, or returned)
+- $pathToXmlDB: the path to the xml-"database" that holds the information about a "bikestock"
+- $bikeTypes: for which biketypes shall the bike overview be generated
+*/
+/* create the overview of all bikes in the database (i.e. xml-file) of interest and an according (i.e. "rent" or "return") submit form */
+function createBikesOverview($config, $pathToXmlDB, $bikeTypes) {
+			$xml = loadXml($pathToXmlDB);
+            /* todo_COSMETIC: this variable should be used for setting the (submit-)buttontext */
 			$buttonText= "noConfig";
-            echo '<form method="post" action="BookingOverview.php" name="testForm">';
-            echo '<div class="flexRow">';
-            foreach($bikeTypes as $bikeType)
-            {
-                if($config=="Rental")
+            if($config=="Rental")
 			{
-				$buttonText = "Rent bikes";
-				echo "<h4>Select Bikes from Category: $bikeType;</h4>";
+			    $buttonText = "Rent";
 			}
 			elseif($config=="Rented")
 			{
-				$buttonText = "Return bikes";
-				echo "<h4>Rented bikes $bikeType</h4>";
+			    $buttonText = "Return";
 			}
-                echo '<div class="flexRow">';
+            /* todo_TECHDEBT: make this a constant */
+            $bikeIcons = [
+                "ROAD" => "./stub_road_category.png",
+                "MTB" => "./stub_mtb_category.png",
+                "TOURING" => "./stub_touring_category.png"
+            ];
+            /* the form that submits all booking-data to the bookingoverview*/
+            echo '<form method="post" action="BookingOverview.php" name="bookingForm">';
+            echo '<div class="flexRow">';
+            foreach($bikeTypes as $bikeType)
+            {
                 $variantA_Bikes = array();
                 $variantB_Bikes = array();
                 $variantC_Bikes = array();
                 
 				getVariantsForType($xml, $bikeType, $variantA_Bikes, $variantB_Bikes, $variantC_Bikes);
+				$bikeVariants = [$variantA_Bikes, $variantB_Bikes, $variantC_Bikes];
 				
-                $sizesVarA_Bikes = array();
-				getSizesForVariant($variantA_Bikes, $sizesVarA_Bikes);
-                $sizesVarB_Bikes = array();
-				getSizesForVariant($variantB_Bikes, $sizesVarB_Bikes);
-                $sizesVarC_Bikes = array();
-				getSizesForVariant($variantC_Bikes, $sizesVarC_Bikes);
-				
-                $bikeVariants = [$variantA_Bikes, $variantB_Bikes, $variantC_Bikes];
-
-				$bikeIcons = [
-					"ROAD" => "./stub_road_category.png",
-					"MTB" => "./stub_mtb_category.png",
-					"TOURING" => "./stub_touring_category.png"
-				];
 				$imgSrc = $bikeIcons[$bikeType];
                 
                 foreach($bikeVariants as $bikeVar)
@@ -261,83 +247,62 @@ function createBikesOverview($config, $user, $bikeTypes) {
                     
                         $category = $node->CATEGORY;
                         
-                            //todo: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
+                            //todo_SECURITY: ensure that only the allowed variants are taken into account (and dont default to 0° when variant is not supported)
                             $variant = $node->VARIANT;
                             $hue = getHueForVariant($variant);
-							//todo: remove hardvoded variants -> iterate over all available variants dynamically
-                            $hue_circle_A = getHueForVariant_circle("A");
-							$hue_circle_B = getHueForVariant_circle("B");
-							$hue_circle_C = getHueForVariant_circle("C");
-							//todo: think of a better way for switching the highlight on/off
-							$selectionHightlight_A = getSelectionHighlight("A", $variant);
-							$selectionHightlight_B = getSelectionHighlight("B", $variant);
-							$selectionHightlight_C = getSelectionHighlight("C", $variant);
-                            $numberRentedBikes = $node->RENTED;
-                            /* todo: think of a smarter way to achieve conditional disabling of size-option*/
+                            
+                            /* todo_TECHDEBT: think of a smarter way to achieve conditional disabling of size-option -> maybe use a local JS-logic */
+                            /* todo_TECHDEBT: these could also be put into an array to make potential extension easier lateron */
                             $sizeSHidden = "hidden";
                             $sizeMHidden = "hidden";
                             $sizeLHidden = "hidden";
 							$numberBikesS = 0;
 							$numberBikesM = 0;
 							$numberBikesL = 0;
-                            $rentedBikesS = 0;
-                            $rentedBikesM = 0;
-                            $rentedBikesL = 0;
+                            /* is used lateron to show how many bikes for the currently selected variant are available / rented */
 							$totalNumberOfBikesForVariant = 0;
                             foreach($bikeVar as $bike)
                             {
                                 if($bike->SIZE == "S")
 								{
 									$sizeSHidden ="";
-									if($config == "Rental")
-									{
-										$numberBikesS =  $bike->IN_STOCK;
-									}
-									else 
-									{
-										$numberBikesS =  $bike->RENTED;
-									}
+									$numberBikesS =  $bike->NUMBER_BIKES;
 								}
 								if($bike->SIZE == "M")
 								{
 									$sizeMHidden ="";
-									if($config == "Rental")
-									{
-										$numberBikesM =  $bike->IN_STOCK;
-									}
-									else
-									{
-										$numberBikesM =  $bike->RENTED;
-									}
+									$numberBikesM =  $bike->NUMBER_BIKES;
 								}
 								if($bike->SIZE == "L")
 								{
 									$sizeLHidden ="";
-									if($config == "Rental")
-									{
-										$numberBikesL =  $bike->IN_STOCK;
-									}
-									else
-									{
-										$numberBikesL =  $bike->RENTED;
-									}
+									$numberBikesL =  $bike->NUMBER_BIKES;
 								}
                             }
 							$totalNumberOfBikesForVariant = $numberBikesS + $numberBikesM + $numberBikesL;
+                            /* todo_TECHDEBT: is there any way to enforce uint values already on xml / dtd side ? */
+                            /* ensure that negative numberOfBikes can not happen */
+                            if($totalNumberOfBikesForVariant < 0)
+                            {
+                                $totalNumberOfBikesForVariant = 0;
+                            }
 							$description = "to return";
 							if($config == "Rental")
 							{
 								$description = "to rent";
 							}
-                            // format that allows for easier parsing lateron in the booking overview
-							$tmpName = "config=" . $config . "&" . "bikeType=". $bikeType . "&" . "variant=" . $variant;
-                            $tile = "var_" . $bikeType . "_" . $variant;
-                            $staticKeyA = "var_" . $bikeType . "_A";
-                            $staticKeyB = "var_" . $bikeType . "_B";
-                            $staticKeyC = "var_" . $bikeType . "_C";
+                            /* format the string to make parsing easier in the booking overview */
+							$parsableBikeDescription = "config=" . $config . "&" . "bikeType=". $bikeType . "&" . "variant=" . $variant;
+                            /* (control)variables used for toggling the visibility of the entry of the selected variant (-> JS) */
+                            /////////////////////////////////
+                            $tile = "var_" . $bikeType . "_" . $variant . "_" . $config;
+                            $staticKeyA = "var_" . $bikeType . "_A". "_" . $config;
+                            $staticKeyB = "var_" . $bikeType . "_B". "_" . $config;
+                            $staticKeyC = "var_" . $bikeType . "_C". "_" . $config;
+                            /////////////////////////////////
                             echo <<<OWN
                                     <script>
-                                    function toggleElementVisibilities(elementToShow, elementToHide_1, elementToHide_2) {
+                                    function toggleVisibilityOfElements(elementToShow, elementToHide_1, elementToHide_2) {
                                         elementToShow.style.display = "block";
                                         elementToHide_1.style.display = "none";
                                         elementToHide_2.style.display = "none";
@@ -347,55 +312,42 @@ function createBikesOverview($config, $user, $bikeTypes) {
                                     <p class="stubImage">($totalNumberOfBikesForVariant x)
                                         <img  class=$hue src=$imgSrc  alt="stub mtb categoryicon" width="100%" heigt="auto">
                                     </p>
-
-                                    <!-- todo: only show the variants that are actually available -->
+                                    <!-- todo_TECHDEBT: only show the variants that are actually available -->
                                     <div class="localFlexRowVariants">
                                         <label class="container">
-                                             <input type="radio" name="radio_$bikeType" value="VarA" onclick='toggleElementVisibilities(document.getElementById("$staticKeyA"), document.getElementById("$staticKeyB"), document.getElementById("$staticKeyC"))'>
+                                             <input type="radio" name="radio_$bikeType" value="VarA" onclick='toggleVisibilityOfElements(document.getElementById("$staticKeyA"), document.getElementById("$staticKeyB"), document.getElementById("$staticKeyC"))'>
                                              <span class="module_a">
                                                  <span class="module-inside"></span>
                                              </span>
                                         </label>
                                         <label class="container">
-                                        <input type="radio" name="radio_$bikeType" value="VarB" onclick='toggleElementVisibilities(document.getElementById("$staticKeyB"), document.getElementById("$staticKeyA"), document.getElementById("$staticKeyC"))'>
+                                        <input type="radio" name="radio_$bikeType" value="VarB" onclick='toggleVisibilityOfElements(document.getElementById("$staticKeyB"), document.getElementById("$staticKeyA"), document.getElementById("$staticKeyC"))'>
                                              <span class="module_b">
                                                  <span class="module-inside"></span>
                                              </span>
                                         </label>
                                         <label class="container">
-                                        <input type="radio" name="radio_$bikeType" value="VarC" onclick='toggleElementVisibilities(document.getElementById("$staticKeyC"), document.getElementById("$staticKeyA"), document.getElementById("$staticKeyB"))'>
+                                        <input type="radio" name="radio_$bikeType" value="VarC" onclick='toggleVisibilityOfElements(document.getElementById("$staticKeyC"), document.getElementById("$staticKeyA"), document.getElementById("$staticKeyB"))'>
                                              <span class="module_c">
                                                   <span class="module-inside"></span>
                                              </span>
                                         </label>
                                     </div>
-                                    
-                                    <!-- <div class="localFlexRow">
-                                         <div class="circleBase $selectionHightlight_A">
-                                             <div class="circleBase $hue_circle_A"></div>
-                                         </div>
-                                         <div class="circleBase $selectionHightlight_B">
-                                             <div class="circleBase $hue_circle_B"></div>
-                                         </div>
-                                         <div class="circleBase $selectionHightlight_C">
-                                             <div class="circleBase $hue_circle_C"></div>
-                                         </div>
-                                    </div> -->
-                                    
+                                    <!-- hide the input components when there is no bike for the selected variant -->
                                     <div $sizeSHidden>
                                     <label>Bikesize: S</label>
-                                        <label for="numberOfBikesSizeS_$tmpName">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeS_$tmpName" name="size=S&$tmpName" value="0" min="0" max=$numberBikesS><br>
+                                        <label for="numberOfBikesSizeS_$parsableBikeDescription">number of Bikes $description:</label><br>
+                                        <input type="number" id="numberOfBikesSizeS_$parsableBikeDescription" name="size=S&$parsableBikeDescription" value="0" min="0" max=$numberBikesS><br>
                                     </div>
                                     <div $sizeMHidden>
                                     <label>Bikesize: M</label>
-                                        <label for="numberOfBikesSizeM_$tmpName">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeM_$tmpName" name="size=M&$tmpName" value="0" min="0" max=$numberBikesM><br>
+                                        <label for="numberOfBikesSizeM_$parsableBikeDescription">number of Bikes $description:</label><br>
+                                        <input type="number" id="numberOfBikesSizeM_$parsableBikeDescription" name="size=M&$parsableBikeDescription" value="0" min="0" max=$numberBikesM><br>
                                     </div>
                                     <div $sizeLHidden>
                                     <label>Bikesize: L</label>
-                                        <label for="numberOfBikesSizeL_$tmpName">number of Bikes $description:</label><br>
-                                        <input type="number" id="numberOfBikesSizeL_$tmpName" name="size=L&$tmpName"value="0"  min="0" max=$numberBikesL><br>
+                                        <label for="numberOfBikesSizeL_$parsableBikeDescription">number of Bikes $description:</label><br>
+                                        <input type="number" id="numberOfBikesSizeL_$parsableBikeDescription" name="size=L&$parsableBikeDescription"value="0"  min="0" max=$numberBikesL><br>
                                     </div>
                                     
                                     </div>
@@ -403,12 +355,15 @@ function createBikesOverview($config, $user, $bikeTypes) {
                         
                 }
             }
-            echo "</div>";
             }
             echo "</div>";
-			echo '<section class="todo">make button text dynamic</section>';
-			echo '<input name="placeOrder" type="submit">';
-			
+            echo "<br>";
+			echo <<<OWN
+                    <div class="marginLeftContainer">
+                        <input class="placeOrderInput" name="placeOrder" type="submit" value=$buttonText> 
+                        <label>selected bikes</label>
+                    </div>
+                    OWN;
             echo "</form>";
 }
 ?>
