@@ -19,6 +19,7 @@ While doing so, learning the basics of "web development", e.g.:
 - customized RadioButton for selecting the variant → describe how :before and „inner“/“inside“ is working
 
 # landing page booking
+<img src="Bookingprocess.gif">
 <img src="Screenshot_CurrentState_Booking.PNG">
 
 # overview of current booking-state ("cart")
